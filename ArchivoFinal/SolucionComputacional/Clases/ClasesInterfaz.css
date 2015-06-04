@@ -3,13 +3,13 @@ h1 {
     text-align: center;
     font-size: 400%;
     text-transform: uppercase;
-    font-family: courier
+    font-family: courier, sans-serif
 }
 
 /*TITULO 2*************************************************************************************************************/
 h2 {
     text-align: center;
-    font-family: courier;
+    font-family: courier, sans-serif;
     font-size: 150%;
 }
 
@@ -30,7 +30,7 @@ div {
 
 /*TEXTO****************************************************************************************************************/
 p {
-    font-family: courier
+    font-family: courier, sans-serif
 }
 
 p.Center {
