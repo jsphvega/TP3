@@ -1,7 +1,6 @@
 function Redireccionar(tipo) {
 
     var valor = document.getElementById("Nombre").value;
-    alert(valor)
     var direccion = ("LibretaViajero.html?json=" + tipo);
 
 
