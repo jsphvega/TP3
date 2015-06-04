@@ -1,0 +1,72 @@
+<html>
+
+<!--CABEZA DE LA PAGINA-->
+<head lang="es">
+    <meta charset="UTF-8">
+
+    <!--TITULO DE LA PAGINA-->
+    <title>Página Principal</title>
+
+    <!--LLAMA AL .CSS PARA LOS ESTILOS-->
+    <link rel="stylesheet" href="Clases/ClasesInterfaz.css">
+    <!--LLAMA AL .js PARA LOS   PROCESOS-->
+    <script type="text/javascript" src="Clases/Procesos.js"></script>
+
+</head>
+
+<!--CUERPO DE LA PAGINA-->
+<body BACKGROUND="Imagenes/Fondo.jpg">
+
+    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/><br/><br/>
+
+    <!--DIVISIONES EN LA PAGINA-->
+    <div> <h1>Menú Principal</h1> </div> <!--TITULO PRINCIPAL-->
+
+    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/><br/><br/><br/>
+
+    <!--DIVISIONES EN LA PAGINA-->
+    <div>
+        <!--TABLA-->
+        <table width="70%" align="center">
+
+            <!--FILA 1-->
+            <tr>
+                <!--COLUMNA 1-->
+                <td width="50%"> <h2>Visualizar Mapa</h2> </td> <!--PARA CARGAR UN MAPA-->
+
+                <!--COLUMNA 2-->
+                <td width="50%"> <h2>Nuevo Mapa</h2> </td> <!--PARA CREAR UN MAPA-->
+            </tr>
+
+            <!--FILA 2-->
+            <tr>
+                <!--COLUMNA 1-->
+                <td>
+                    <p class="Center">
+                        <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
+
+                        <!--BOTON PARA CARGARLO-->
+                        <button type="button" onclick="Redireccionar('old')"> Cargar </button>
+                    </p>
+                </td>
+
+                <!--COLUMNA 2-->
+                <td>
+                    <p class="Center">
+                        <!--ETIQUETA--> Nombre del usuario:
+                        <!--CAMPO DE TEXTO PARA ESCRIBIR--><input type="text" id="Nombre">
+
+                        <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
+
+                        <!--BOTON PARA CREARLO-->
+                        <button type="button"  onclick="Redireccionar('new')"> Crear </button>
+                    </p>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
