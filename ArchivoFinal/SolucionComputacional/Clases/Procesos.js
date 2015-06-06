@@ -14,3 +14,9 @@ function Redireccionar(tipo) {
         }
     }
 }
+
+function Volver() {
+    if (confirm("¿Esta seguro de volver?")) {
+        location.href = "Principal.html";
+    }
+}

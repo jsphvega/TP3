@@ -48,6 +48,7 @@ div {
     padding:5px;
 }
 
+/*Clase de <div> para crear la barra estatica inferior*/
 div.BarraInferior{
     position:fixed;
     left:0;
@@ -62,6 +63,7 @@ p {
     font-family: courier, sans-serif
 }
 
+/*Clase de <p> para centrar el texto en c*/
 p.Center {
     text-align: center;
 }
@@ -71,16 +73,4 @@ p.Center {
  **********************************************************************************************************************/
 table {
     text-align: center;
-}
-
-/**********************************************************************************************************************
- DIRECCIONES
- **********************************************************************************************************************/
-a:link {
-    text-decoration:none;
-    color: #000000;
-}
-
-a:visited {
-    color: #000000;
 }
