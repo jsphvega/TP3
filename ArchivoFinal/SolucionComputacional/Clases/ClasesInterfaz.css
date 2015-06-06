@@ -60,7 +60,7 @@ div.BarraInferior{
  TEXTO
  **********************************************************************************************************************/
 p {
-    font-family: courier, sans-serif
+    font-family: courier, sans-serif;
 }
 
 /*Clase de <p> para centrar el texto en c*/
@@ -73,4 +73,10 @@ p.Center {
  **********************************************************************************************************************/
 table {
     text-align: center;
+}
+
+
+textarea {
+    resize: none;
+    width: 100%;
 }

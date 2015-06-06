@@ -15,7 +15,8 @@
 </head>
 
 <!--CUERPO DE LA PAGINA-->
-<body>
+<body onload="InicioPantalla()">
+
     <!--FONDO DE LA PANTALLA-->
     <img id="Fondo" src="Imagenes/Fondo.jpg"  alt="background" />
 
@@ -26,13 +27,88 @@
         <tr>
 
             <!--COLUMNA 1-->
-            <td>
+            <td width="35%">
 
                 <!--DIVISIONES EN LA PAGINA-->
                 <div>
-                    <h2> Menú </h2>
 
-                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/>
+                    <h2> Bienvenido, </h2>
+
+                    <!--LISTAS DE CHEQUEO DE LA PAGINA-->
+                    <p> <input type="checkbox" checked name="Publico" /> Mapa Publico </p>
+
+                    <!--BOTONES DE LA PAGINA-->
+                    <button type="button"> Nuevo Viaje </button>
+                    <button type="button"> Importar </button>
+                    <button type="button"> Exportar </button>
+
+                    <!--AREA DE TEXTO DE LA PAGINA-->
+                    <p> Viajes
+                        <TextArea id="Textarea" rows="6" readonly></TextArea>
+                    </p>
+
+                    <br/>
+
+                    <h2> Visualizar Tablas </h2>
+
+                    <!--TABLA-->
+                    <table>
+
+                        <!--FILA 1-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td>
+                                <p align="left">
+                                    <input type="radio" checked name="eCivil"/>
+                                    Todos los Viajes
+                                </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
+
+                            </td>
+
+                        </tr>
+
+                        <!--FILA 2-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td>
+                                <p align="left">
+                                    <input type="radio" name="eCivil"/>
+                                    Por fecha
+                                </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
+
+                            </td>
+
+                        </tr>
+
+                        <!--FILA 3-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td>
+                                <p align="left">
+                                    <input type="radio" name="eCivil"/>
+                                    Tags
+                                </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
+
+                            </td>
+
+                        </tr>
+
+                    </table>
 
                 </div>
 
@@ -48,8 +124,6 @@
                 <div>
 
                     <h2> Mapa </h2>
-
-                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/>
 
                     <!--
                     LUCIA EL MAPA

@@ -20,3 +20,7 @@ function Volver() {
         location.href = "Principal.html";
     }
 }
+
+function InicioPantalla () {
+    document.getElementById('Textarea').value = "afsdsdbsfg";
+}
