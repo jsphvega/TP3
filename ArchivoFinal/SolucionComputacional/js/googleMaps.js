@@ -3,6 +3,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var map;
   var markers = [];
   var initMethod = 'googleMapsAdmin.initialize';
+  var defaultIconImage = 'images/spotlight-poi.png';
   // Costa Rica
   // http://www.doogal.co.uk/LatLong.php
   // Google Maps lat/long finder
@@ -16,7 +17,8 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     var mapOptions = {
       zoom: defaultZoom,
       mapTypeId: google.maps.MapTypeId.SATELLITE,
-      center: new google.maps.LatLng(defaultLatitude, defaultLongitude)
+      center: new google.maps.LatLng(defaultLatitude, defaultLongitude),
+      icon: defaultIconImage
     };
     map = new google.maps.Map(document.getElementById(mapContainer),
       mapOptions);
@@ -46,18 +48,18 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       markers = [];
       var bounds = new google.maps.LatLngBounds();
       for (var i = 0, place; place = places[i]; i++) {
-        var image = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
+        //var image = {
+        //  url: place.icon,
+        //  size: new google.maps.Size(71, 71),
+        //  origin: new google.maps.Point(0, 0),
+        //  anchor: new google.maps.Point(17, 34),
+        //  scaledSize: new google.maps.Size(25, 25)
+        //};
 
         // Create a marker for each place.
         var marker = new google.maps.Marker({
           map: map,
-          icon: image,
+          icon: defaultIconImage,
           title: place.name,
           position: place.geometry.location
         });
@@ -83,15 +85,15 @@ var googleMapsAdmin = (function googleMaps(window, document) {
         var pos = new google.maps.LatLng(position.coords.latitude,
           position.coords.longitude);
 
-        var infowindow = new google.maps.InfoWindow({
-          map: map,
-          position: pos,
-          content: defaultMessage
-        });
+        //var infowindow = new google.maps.InfoWindow({
+        //  map: map,
+        //  position: pos,
+        //  content: defaultMessage
+        //});
 
         map.setCenter(pos);
       }, function () {
-        handleNoGeolocation(true);
+        handleNoGeolocation(false);
       });
     } else {
       // Browser doesn't support Geolocation
@@ -110,10 +112,12 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       map: map,
       position: new google.maps.LatLng(defaultLatitude, defaultLongitude),
       content: content,
-      mapTypeId: google.maps.MapTypeId.SATELLITE
+      mapTypeId: google.maps.MapTypeId.SATELLITE,
+      icon: defaultIconImage
     };
 
-    var infowindow = new google.maps.InfoWindow(options);
+    //var infowindow = new google.maps.InfoWindow(options);
+
     map.setCenter(options.position);
   }
 
