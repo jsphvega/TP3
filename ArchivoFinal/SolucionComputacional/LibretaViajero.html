@@ -29,7 +29,7 @@
             <!--COLUMNA 1-->
             <td class="fondo" width="40%" valign="top">
 
-                <h2> Bienvenido </h2>
+                <br/> <h2> Bienvenido </h2>
 
                 <div id="Espacio1">
 
@@ -47,7 +47,7 @@
                             <!--COLUMNA 1-->
                             <td>
                                 <p align="left">
-                                    <input type="radio" checked name="Viajes"/>
+                                    <input type="radio" checked name="Viajes">
                                     Todos
                                 </p>
                             </td>
@@ -91,7 +91,7 @@
 
                             <!--COLUMNA 2-->
                             <td align="right">
-                                <input type="text" style="width:97%" id="Tags">
+                                <input type="text" style="width:97%" id="NuevoTags">
                             </td>
 
                         </tr>
@@ -105,8 +105,6 @@
                         <input type="checkbox" checked name="Publico" /> Mapa Publico
                         <input type="checkbox" name="Distancia"/> Ver Distancia
                     </p>
-
-                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br>
 
                     <!--LINEA DIVISORA-->
                     <hr>
@@ -129,7 +127,7 @@
                     <!--LINEA DIVISORA-->
                     <hr>
 
-                    <h2> Visualizar Mapas </h2>
+                    <h2> Agregar Viaje </h2>
 
                     <!--TABLA-->
                     <table width="100%">
@@ -138,51 +136,60 @@
                         <tr>
 
                             <!--COLUMNA 1-->
-                            <td>
+                            <td width="30%">
                                 <p align="left"> Por Lugar </p>
-                            </td>
-
-                            <!--COLUMNA 2-->
-                            <td align="center">
-
-                            </td>
-
-                        </tr>
-
-                        <!--FILA 2-->
-                        <tr>
-
-                            <!--COLUMNA 1-->
-                            <td width="35%">
-                                <p align="left"> Entre Fechas </p>
+                                <p align="left"> Por Fechas * </p>
+                                <p align="left"> &nbsp; </p>
+                                <p align="left"> Por Tags **</p>
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="right">
-                                <p> Inicio
-                                <input type="date" style="width:48%" id="NuevoInicio"></p>
-                                <p> Fin
-                                <input type="date" style="width:48%" id="NuevoFin"> </p>
-                            </td>
+                                <p>.</p>
+                                <p align="center"> Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin </p>
+                                <p>
+                                    <input type="date" style="width:48%" id="NuevoInicio">
+                                    <input type="date" style="width:48%" id="NuevoFin">
+                                </p>
 
-                        </tr>
-
-                        <!--FILA 3-->
-                        <tr>
-
-                            <!--COLUMNA 1-->
-                            <td>
-                                <p align="left"> Por Tags </p>
-                            </td>
-
-                            <!--COLUMNA 2-->
-                            <td align="right">
-                                <input type="text" style="width:98%" id="Tags">
+                                <p> <input type="text" style="width:99%" id="Tags"> </p>
                             </td>
 
                         </tr>
 
                     </table>
+
+                    <p align="left"> Datos personalizados: </p>
+
+                    <!--TABLA-->
+                    <table width="100%">
+
+                        <!--FILA 1-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td width="30%">
+                                <p align="left"> + Comida ** </p>
+                                <p align="left"> + Amigos ** </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
+                                <p> <input type="date" style="width:99%" id="NuevoComida"> </p>
+                                <p> <input type="date" style="width:99%" id="NuevoAmigos"> </p>
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                    <p align="right">
+                        * En firefox usar [dd/mm/aaaa]<br/>
+                        ** Un espacio es una nueva palabra
+                    </p>
+
+                    <button type="button" onclick="AgregarViaje()"> Aceptar </button>
+                    <button type="button" onclick="MostrarOcultar(false)"> Cancelar </button>
 
                 </div>
 
@@ -192,13 +199,9 @@
             <td> </td>
 
             <!--COLUMNA 3-->
-            <td class="fondo" valign="top">
+            <td class="fondo">
 
                 <h2> Mapa </h2>
-
-                <!--
-                LUCIA EL MAPA
-                -->
 
             </td>
 

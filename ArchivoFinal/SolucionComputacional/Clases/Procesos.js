@@ -7,7 +7,7 @@ function Redireccionar(tipo) {
     if (tipo == "old") {
         location.href = direccion + "&user=NONE";
     } else {
-        if (!valor == "") {
+        if (valor != "") {
             location.href = direccion + "&user=" + valor;
         } else {
             alert("No debe dejar el espacio en blanco");
@@ -33,4 +33,14 @@ function MostrarOcultar(Condicion) {
         document.getElementById('Espacio1').style.display='block';
         document.getElementById('Espacio2').style.display='none';
     }
+}
+
+function AgregarViaje() {
+    if (confirm("¿Esta seguro de sus datos?")) {
+        alert("Viaje almacenado correctamente");
+    } else {
+        alert("Error al almacenar el viaje");
+    }
+
+    MostrarOcultar(false)
 }
