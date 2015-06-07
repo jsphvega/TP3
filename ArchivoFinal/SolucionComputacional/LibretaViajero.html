@@ -1,77 +1,24 @@
-<html>
-
-<!--CABEZA DE LA PAGINA-->
-<head lang="es">
-    <meta charset="UTF-8">
-
-    <!--TITULO DE LA PAGINA-->
-    <title>Libreta  del  Viajero</title>
-
-    <!--LLAMA AL .CSS PARA LOS ESTILOS-->
-    <link rel="stylesheet" href="Clases/ClasesInterfaz.css">
-    <!--LLAMA AL .js PARA LOS   PROCESOS-->
-    <script type="text/javascript" src="Clases/Procesos.js"></script>
-
-</head>
-
-<!--CUERPO DE LA PAGINA-->
-<body>
-    <!--FONDO DE LA PANTALLA-->
-    <img id="Fondo" src="Imagenes/Fondo.jpg"  alt="background" />
-
-    <!--TABLA-->
-    <Table width="100%" align="center">
-
-        <!--FILA 1-->
-        <tr>
-            <!--COLUMNA 1-->
-            <td>
-                <!--DIVISIONES EN LA PAGINA-->
-                <div>
-                    <h2> Menú </h2>
-
-                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/>
-
-                </div>
-            </td>
-            <!--COLUMNA 2-->
-            <td> </td>
-            <!--COLUMNA 3-->
-            <td>
-                <!--DIVISIONES EN LA PAGINA-->
-                <div>
-                    <h2> Mapa </h2>
-
-                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/>
-
-                    <!--
-                    LUCIA EL MAPA
-                    -->
-
-                </div>
-            </td>
-        </tr>
-    </Table>
-
-    <!--BARRA INFERIOR DE LA PANTALLA-->
-    <div class="BarraInferior">
-
-        <!--TABLA-->
-        <table  width="95%" align="center">
-            <!--FILA 1-->
-            <tr>
-                <!--COLUMNA 1-->
-                <td align="left">
-                    <p> Realizado por Lucia Solis & Joseph Vega & Yulay Segura </p>
-                </td>
-                <!--COLUMNA 2-->
-                <td align="right">
-                    <button type="button"> <a href="Principal.html"> Volver al menú </a> </button>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-</body>
-
-</html>
+<!DOCTYPE html><html><head><title>Google Maps</title><meta name="viewport" content="initial-scale=1.0, user-scalable=no"><meta charset="utf-8"><!-- Styles--><!-- Bootstrap core CSS--><link href="css/bootstrap.min.css" rel="stylesheet"><!-- Bootstrap theme--><link href="css/bootstrap-theme.min.css" rel="stylesheet"><!-- Custom styles for this template--><link href="css/theme.css" rel="stylesheet"><link rel="stylesheet" href="css/googleMaps.css"></head><body><div role="navigation" class="navbar navbar-inverse navbar-fixed-top"><div class="container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">Bitácora del Viajero</a></div><!--#navbar.navbar-collapse.collapseul.nav.navbar-nav
+  li.active
+    a(href="#") Home
+  li
+    a(href="#about") About
+  li
+    a(href="#contact") Contact
+  li.dropdown
+    a.dropdown-toggle(href="#", data-toggle="dropdown", tabindex="0")
+      | Dropdown
+      span.caret
+    ul.dropdown-menu(role="menu")
+      li
+        a(href="#") Action
+      li
+        a(href="#") Another action
+      li
+        a(href="#") Something else here
+      li.divider
+      li.dropdown-header Nav header
+      li
+        a(href="#") Separated link
+      li
+        a(href="#") One more separated link--><!-- /.nav-collapse--></div></div><!-- Google maps--><div class="container-fluid"><div class="row"><div class="col-sm-5 col-sm-offset-1"><ul class="nav nav-tabs"><li role="presentation" class="active"><a href="#addTrip" onclick="navigationAdmin.changeTab('addTrip)">Agregar viaje</a></li><li role="presentation"><a href="#others">Profile</a></li><li role="presentation"><a href="#">Messages</a></li></ul><div class="tab-content"><div id="addTrip" class="tab-pane active"><div class="container-add-trip"><form><div class="form-group"><label for="pac-input">Sitio a buscar</label><input id="pac-input" type="text" placeholder="Dirección" class="form-control"></div><button type="submit" class="btn btn-primary">Agregar</button></form></div></div><div id="others" class="tab-pane">Profile</div></div></div><div class="col-sm-6 map"><div id="map-canvas" class="google-map-canvas"></div></div></div></div><script src="js/googleMaps.js"></script><script src="js/navigationGoogleMaps.js"></script><script src="js/bootstrap-without-jquery.js"></script></body></html>

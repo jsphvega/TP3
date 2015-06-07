@@ -2,83 +2,86 @@
 
 <!--CABEZA DE LA PAGINA-->
 <head lang="es">
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-    <!--TITULO DE LA PAGINA-->
-    <title>Página Principal</title>
+  <!--TITULO DE LA PAGINA-->
+  <title>Página Principal</title>
 
-    <!--LLAMA AL .CSS PARA LOS ESTILOS-->
-    <link rel="stylesheet" href="Clases/ClasesInterfaz.css">
-    <!--LLAMA AL .js PARA LOS   PROCESOS-->
-    <script type="text/javascript" src="Clases/Procesos.js"></script>
+  <!--LLAMA AL .CSS PARA LOS ESTILOS-->
+  <link rel="stylesheet" href="Clases/ClasesInterfaz.css">
+  <!--LLAMA AL .js PARA LOS   PROCESOS-->
+  <script type="text/javascript" src="Clases/Procesos.js"></script>
 
 </head>
 
 <!--CUERPO DE LA PAGINA-->
 <body>
-    <!--FONDO DE LA PANTALLA-->
-    <img id="fondo" src="Imagenes/Fondo.jpg"  alt="background" />
+<!--FONDO DE LA PANTALLA-->
+<img id="fondo" src="Imagenes/Fondo.jpg" alt="background"/>
 
-    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/><br/><br/>
+<!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/><br/><br/>
 
-    <!--DIVISIONES EN LA PAGINA-->
-    <div> <h1>Menú Principal</h1> </div> <!--TITULO PRINCIPAL-->
+<!--DIVISIONES EN LA PAGINA-->
+<div><h1>Menú Principal</h1></div>
+<!--TITULO PRINCIPAL-->
 
-    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/><br/><br/><br/>
+<!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/><br/><br/><br/>
 
-    <!--DIVISIONES EN LA PAGINA-->
-    <div>
-        <!--TABLA-->
-        <table width="70%" align="center">
+<!--DIVISIONES EN LA PAGINA-->
+<div>
+  <!--TABLA-->
+  <table width="70%" align="center">
 
-            <!--FILA 1-->
-            <tr>
-                <!--COLUMNA 1-->
-                <td width="50%"> <h2>Visualizar Mapa</h2> </td> <!--PARA CARGAR UN MAPA-->
+    <!--FILA 1-->
+    <tr>
+      <!--COLUMNA 1-->
+      <td width="50%"><h2>Visualizar Mapa</h2></td>
+      <!--PARA CARGAR UN MAPA-->
 
-                <!--COLUMNA 2-->
-                <td width="50%"> <h2>Nuevo Mapa</h2> </td> <!--PARA CREAR UN MAPA-->
-            </tr>
+      <!--COLUMNA 2-->
+      <td width="50%"><h2>Nuevo Mapa</h2></td>
+      <!--PARA CREAR UN MAPA-->
+    </tr>
 
-            <!--FILA 2-->
-            <tr>
-                <!--COLUMNA 1-->
-                <td>
-                    <p class="Center">
-                        <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
+    <!--FILA 2-->
+    <tr>
+      <!--COLUMNA 1-->
+      <td>
+        <p class="Center">
+          <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
 
-                        <!--BOTON PARA CARGARLO-->
-                        <button type="button" onclick="Redireccionar('old')"> Cargar </button>
-                    </p>
-                </td>
+          <!--BOTON PARA CARGARLO-->
+          <button type="button" onclick="Redireccionar('old')"> Cargar</button>
+        </p>
+      </td>
 
-                <!--COLUMNA 2-->
-                <td>
-                    <p class="Center">
-                        <!--ETIQUETA--> Nombre del usuario:
-                        <!--CAMPO DE TEXTO PARA ESCRIBIR--><input type="text" id="Nombre">
+      <!--COLUMNA 2-->
+      <td>
+        <p class="Center">
+          <!--ETIQUETA--> Nombre del usuario:
+          <!--CAMPO DE TEXTO PARA ESCRIBIR--><input type="text" id="Nombre">
 
-                        <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
+          <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
 
-                        <!--BOTON PARA CREARLO-->
-                        <button type="button"  onclick="Redireccionar('new')"> Crear </button>
-                    </p>
-                </td>
-            </tr>
-        </table>
-    </div>
+          <!--BOTON PARA CREARLO-->
+          <button type="button" onclick="Redireccionar('new')"> Crear</button>
+        </p>
+      </td>
+    </tr>
+  </table>
+</div>
 
-    <!--BARRA INFERIOR DE LA PANTALLA-->
-    <div class="BarraInferior">
-        <table  width="95%" align="center">
-            <tr>
-                <td align="left">
-                    <p> Realizado por Lucia Solis & Joseph Vega & Yulay Segura </p>
-                </td>
-                <td align="right"> </td>
-            </tr>
-        </table>
-    </div>
+<!--BARRA INFERIOR DE LA PANTALLA-->
+<div class="BarraInferior">
+  <table width="95%" align="center">
+    <tr>
+      <td align="left">
+        <p> Realizado por Lucia Solis & Joseph Vega & Yulay Segura </p>
+      </td>
+      <td align="right"></td>
+    </tr>
+  </table>
+</div>
 
 </body>
 

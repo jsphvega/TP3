@@ -1,0 +1,82 @@
+doctype html
+html
+  head
+    title Google Maps
+    meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
+    meta(charset="utf-8")
+    // Styles
+    // Bootstrap core CSS
+    link(href="css/bootstrap.min.css", rel="stylesheet")
+    // Bootstrap theme
+    link(href="css/bootstrap-theme.min.css", rel="stylesheet")
+    // Custom styles for this template
+    link(href="css/theme.css", rel="stylesheet")
+
+    link(rel="stylesheet", href="css/googleMaps.css")
+  body
+    .navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#navbar", aria-expanded="false", aria-controls="navbar")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="#") Bitácora del Viajero
+        //#navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href="#") Home
+            li
+              a(href="#about") About
+            li
+              a(href="#contact") Contact
+            li.dropdown
+              a.dropdown-toggle(href="#", data-toggle="dropdown", tabindex="0")
+                | Dropdown
+                span.caret
+              ul.dropdown-menu(role="menu")
+                li
+                  a(href="#") Action
+                li
+                  a(href="#") Another action
+                li
+                  a(href="#") Something else here
+                li.divider
+                li.dropdown-header Nav header
+                li
+                  a(href="#") Separated link
+                li
+                  a(href="#") One more separated link
+        // /.nav-collapse
+
+    // Google maps
+    .container-fluid
+      .row
+        .col-sm-5.col-sm-offset-1
+          ul.nav.nav-tabs
+            li.active(role="presentation")
+              a(href="#addTrip", onclick="navigationAdmin.changeTab('addTrip)") Agregar viaje
+            li(role="presentation")
+              a(href="#others") Profile
+            li(role="presentation")
+              a(href="#") Messages
+
+          .tab-content
+            .tab-pane.active#addTrip
+              .container-add-trip
+                form
+                  .form-group
+                    label(for="pac-input") Sitio a buscar
+                    input#pac-input.form-control(type="text", placeholder="Dirección")
+                  button.btn.btn-primary(type="submit") Agregar
+
+            .tab-pane#others Profile
+
+        .col-sm-6.map
+            #map-canvas.google-map-canvas
+
+
+    script(src="js/googleMaps.js")
+    script(src="js/navigationGoogleMaps.js")
+    script(src="js/bootstrap-without-jquery.js")
