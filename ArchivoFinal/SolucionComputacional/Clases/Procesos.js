@@ -22,5 +22,15 @@ function Volver() {
 }
 
 function InicioPantalla () {
-    document.getElementById('Textarea').value = "afsdsdbsfg";
+    document.getElementById('Textarea').value = "af\nsdsdbsfg";
+}
+
+function MostrarOcultar(Condicion) {
+    if (Condicion) {
+        document.getElementById('Espacio1').style.display='none';
+        document.getElementById('Espacio2').style.display='block';
+    } else {
+        document.getElementById('Espacio1').style.display='block';
+        document.getElementById('Espacio2').style.display='none';
+    }
 }

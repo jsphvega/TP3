@@ -21,35 +21,22 @@
     <img id="Fondo" src="Imagenes/Fondo.jpg"  alt="background" />
 
     <!--TABLA-->
-    <Table width="100%" align="center">
+    <Table width="100%" height="93%" align="center">
 
         <!--FILA 1-->
         <tr>
 
             <!--COLUMNA 1-->
-            <td width="35%">
+            <td class="fondo" width="40%" valign="top">
 
-                <!--DIVISIONES EN LA PAGINA-->
-                <div>
+                <h2> Bienvenido </h2>
 
-                    <h2> Bienvenido, </h2>
+                <div id="Espacio1">
 
-                    <!--LISTAS DE CHEQUEO DE LA PAGINA-->
-                    <p> <input type="checkbox" checked name="Publico" /> Mapa Publico </p>
+                    <!--LINEA DIVISORA-->
+                    <hr>
 
-                    <!--BOTONES DE LA PAGINA-->
-                    <button type="button"> Nuevo Viaje </button>
-                    <button type="button"> Importar </button>
-                    <button type="button"> Exportar </button>
-
-                    <!--AREA DE TEXTO DE LA PAGINA-->
-                    <p> Viajes
-                        <TextArea id="Textarea" rows="6" readonly></TextArea>
-                    </p>
-
-                    <br/>
-
-                    <h2> Visualizar Tablas </h2>
+                    <h2> Visualizar Mapas </h2>
 
                     <!--TABLA-->
                     <table>
@@ -60,14 +47,14 @@
                             <!--COLUMNA 1-->
                             <td>
                                 <p align="left">
-                                    <input type="radio" checked name="eCivil"/>
-                                    Todos los Viajes
+                                    <input type="radio" checked name="Viajes"/>
+                                    Todos
                                 </p>
                             </td>
 
                             <!--COLUMNA 2-->
-                            <td align="right">
-
+                            <td align="center">
+                                <p> Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin </p>
                             </td>
 
                         </tr>
@@ -76,16 +63,17 @@
                         <tr>
 
                             <!--COLUMNA 1-->
-                            <td>
+                            <td width="35%">
                                 <p align="left">
-                                    <input type="radio" name="eCivil"/>
+                                    <input type="radio" name="Viajes"/>
                                     Por fecha
                                 </p>
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="right">
-
+                                <input type="date" style="width:48%" id="Inicio">
+                                <input type="date" style="width:48%" id="Fin">
                             </td>
 
                         </tr>
@@ -96,14 +84,100 @@
                             <!--COLUMNA 1-->
                             <td>
                                 <p align="left">
-                                    <input type="radio" name="eCivil"/>
+                                    <input type="radio" name="Viajes"/>
                                     Tags
                                 </p>
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="right">
+                                <input type="text" style="width:97%" id="Tags">
+                            </td>
 
+                        </tr>
+
+                    </table>
+
+                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br>
+
+                    <p>
+                        <input type="checkbox" name="Ruta"/> Trazar Ruta
+                        <input type="checkbox" checked name="Publico" /> Mapa Publico
+                        <input type="checkbox" name="Distancia"/> Ver Distancia
+                    </p>
+
+                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br>
+
+                    <!--LINEA DIVISORA-->
+                    <hr>
+
+                    <!--AREA DE TEXTO DE LA PAGINA-->
+                    <h2>Viajes</h2>
+                    <p>
+                        <TextArea id="Textarea" rows="6" readonly></TextArea>
+                    </p>
+
+                    <!--BOTONES DE LA PAGINA-->
+                    <button type="button" onclick="MostrarOcultar(true)"> Nuevo Viaje </button>
+                    <button type="button"> Importar </button>
+                    <button type="button"> Exportar </button>
+
+                </div>
+
+                <div id="Espacio2" style="display: none">
+
+                    <!--LINEA DIVISORA-->
+                    <hr>
+
+                    <h2> Visualizar Mapas </h2>
+
+                    <!--TABLA-->
+                    <table width="100%">
+
+                        <!--FILA 1-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td>
+                                <p align="left"> Por Lugar </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="center">
+
+                            </td>
+
+                        </tr>
+
+                        <!--FILA 2-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td width="35%">
+                                <p align="left"> Entre Fechas </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
+                                <p> Inicio
+                                <input type="date" style="width:48%" id="NuevoInicio"></p>
+                                <p> Fin
+                                <input type="date" style="width:48%" id="NuevoFin"> </p>
+                            </td>
+
+                        </tr>
+
+                        <!--FILA 3-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td>
+                                <p align="left"> Por Tags </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
+                                <input type="text" style="width:98%" id="Tags">
                             </td>
 
                         </tr>
@@ -118,18 +192,13 @@
             <td> </td>
 
             <!--COLUMNA 3-->
-            <td>
+            <td class="fondo" valign="top">
 
-                <!--DIVISIONES EN LA PAGINA-->
-                <div>
+                <h2> Mapa </h2>
 
-                    <h2> Mapa </h2>
-
-                    <!--
-                    LUCIA EL MAPA
-                    -->
-
-                </div>
+                <!--
+                LUCIA EL MAPA
+                -->
 
             </td>
 
