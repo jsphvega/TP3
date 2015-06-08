@@ -38,6 +38,8 @@ function ViajaAPrincipal() {
  */
 function InicioViajero() {
     RellenarTextArea ();
+
+    document.getElementById('Bienvenido').innerHTML += ": josephcito";
 }
 
 /**
