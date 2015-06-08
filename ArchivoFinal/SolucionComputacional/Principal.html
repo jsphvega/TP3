@@ -3,6 +3,7 @@
 <!--CABEZA DE LA PAGINA-->
 <head lang="es">
 
+    <!--CODIFICACION DEL TEXTO-->
     <meta charset="UTF-8">
 
     <!--TITULO DE LA PAGINA-->
@@ -10,7 +11,8 @@
 
     <!--LLAMA AL .CSS PARA LOS ESTILOS-->
     <link rel="stylesheet" href="Clases/ClasesInterfaz.css">
-    <!--LLAMA AL .js PARA LOS   PROCESOS-->
+
+    <!--LLAMA AL .js PARA LOS PROCESOS-->
     <script type="text/javascript" src="Clases/Procesos.js"></script>
 
 </head>
@@ -25,7 +27,10 @@
 
     <!--DIVISIONES EN LA PAGINA-->
     <div style="background: rgba(255, 255, 255, 0.6);">
+
+        <!--TITULO DE PANTALLA-->
         <h1>Menú Principal</h1>
+
     </div> <!--TITULO PRINCIPAL-->
 
     <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br/><br/><br/><br/>
@@ -38,11 +43,23 @@
 
             <!--FILA 1-->
             <tr>
+
                 <!--COLUMNA 1-->
-                <td width="50%"> <h2>Visualizar Mapa</h2> </td> <!--PARA CARGAR UN MAPA-->
+                <td width="50%">
+
+                    <!--SUBTITULO-->
+                    <h2>Visualizar Mapa</h2>
+
+                </td>
 
                 <!--COLUMNA 2-->
-                <td width="50%"> <h2>Nuevo Mapa</h2> </td> <!--PARA CREAR UN MAPA-->
+                <td width="50%">
+
+                    <!--SUBTITULO-->
+                    <h2>Nuevo Mapa</h2>
+
+                </td>
+
             </tr>
 
             <!--FILA 2-->
@@ -50,25 +67,37 @@
 
                 <!--COLUMNA 1-->
                 <td>
+
+                    <!--TEXTO-->
                     <p class="Center">
+
                         <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
 
                         <!--BOTON PARA CARGARLO-->
-                        <button type="button" onclick="Redireccionar('old')"> Cargar </button>
+                        <button type="button" onclick="ViajaAViajero('Viejo')"> Cargar </button>
+
                     </p>
+
                 </td>
 
                 <!--COLUMNA 2-->
                 <td>
+
+                    <!--TEXTO-->
                     <p class="Center">
+
                         <!--ETIQUETA--> Nombre del usuario:
-                        <!--CAMPO DE TEXTO PARA ESCRIBIR--> <input type="text" id="Nombre" name="Nombre">
+
+                        <!--CAMPO DE TEXTO PARA ESCRIBIR-->
+                        <input type="text" id="Nombre" name="Nombre">
 
                         <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--><br/><br/>
 
                         <!--BOTON PARA CREARLO-->
-                        <button type="button"  onclick="Redireccionar('new')"> Crear </button>
+                        <button type="button"  onclick="ViajaAViajero('Nuevo')"> Crear </button>
+
                     </p>
+
                 </td>
 
             </tr>
@@ -77,7 +106,7 @@
 
     </div>
 
-    <!--BARRA INFERIOR DE LA PANTALLA-->
+    <!--DIVISION DE LA PANTALLA BARRA INFERIOR-->
     <div class="BarraInferior">
 
         <!--TABLA-->
@@ -85,9 +114,13 @@
 
             <!--FILA 1-->
             <tr>
+
                 <!--COLUMNA 1-->
                 <td align="left">
+
+                    <!--TEXTO-->
                     <p> Realizado por Yulay Segura & Lucia Solis & Joseph Vega </p>
+
                 </td>
 
             </tr>

@@ -2,6 +2,8 @@
 
 <!--CABEZA DE LA PAGINA-->
 <head lang="es">
+
+    <!--CODIFICACION DE PANTALLA-->
     <meta charset="UTF-8">
 
     <!--TITULO DE LA PAGINA-->
@@ -9,13 +11,14 @@
 
     <!--LLAMA AL .CSS PARA LOS ESTILOS-->
     <link rel="stylesheet" href="Clases/ClasesInterfaz.css">
+
     <!--LLAMA AL .js PARA LOS   PROCESOS-->
     <script type="text/javascript" src="Clases/Procesos.js"></script>
 
 </head>
 
 <!--CUERPO DE LA PAGINA-->
-<body onload="InicioPantalla()">
+<body onload="InicioViajero()">
 
     <!--FONDO DE LA PANTALLA-->
     <img id="Fondo" src="Imagenes/Fondo.jpg"  alt="background" />
@@ -29,13 +32,23 @@
             <!--COLUMNA 1-->
             <td class="fondo" width="40%" valign="top">
 
-                <br/> <h2> Bienvenido </h2>
+                <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE--> <br/>
 
+                <!--SUBTITULO-->
+                <h2>
+
+                    <!--ETIQUETA-->
+                    <label id="Bienvenido">Bienvenido</label>
+
+                </h2>
+
+                <!--DIVISION DE PANTALLA-->
                 <div id="Espacio1">
 
                     <!--LINEA DIVISORA-->
                     <hr>
 
+                    <!--SUBTITULO-->
                     <h2> Visualizar Mapas </h2>
 
                     <!--TABLA-->
@@ -46,15 +59,25 @@
 
                             <!--COLUMNA 1-->
                             <td>
+
+                                <!--TEXTO-->
                                 <p align="left">
+
+                                    <!--LISTAS DE BOTONES-->
                                     <input type="radio" checked name="Viajes">
+
                                     Todos
+
                                 </p>
+
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="center">
+
+                                <!--TEXTO-->
                                 <p> Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin </p>
+
                             </td>
 
                         </tr>
@@ -64,16 +87,26 @@
 
                             <!--COLUMNA 1-->
                             <td width="35%">
+
+                                <!--TEXTO-->
                                 <p align="left">
+
+                                    <!--LISTA DE BOTONES-->
                                     <input type="radio" name="Viajes"/>
+
                                     Por fecha
+
                                 </p>
+
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="right">
+
+                                <!--FECHA-->
                                 <input type="date" style="width:48%" id="Inicio">
                                 <input type="date" style="width:48%" id="Fin">
+
                             </td>
 
                         </tr>
@@ -83,15 +116,25 @@
 
                             <!--COLUMNA 1-->
                             <td>
+
+                                <!--TEXTO-->
                                 <p align="left">
+
+                                    <!--LISTA DE BOTONES-->
                                     <input type="radio" name="Viajes"/>
+
                                     Tags
+
                                 </p>
+
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="right">
+
+                                <!--CAMPO DE TEXTO-->
                                 <input type="text" style="width:97%" id="NuevoTags">
+
                             </td>
 
                         </tr>
@@ -100,19 +143,28 @@
 
                     <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br>
 
+                    <!--TEXTO-->
                     <p>
+
+                        <!--LISTAS DE CHEQUEO-->
                         <input type="checkbox" name="Ruta"/> Trazar Ruta
                         <input type="checkbox" checked name="Publico" /> Mapa Publico
                         <input type="checkbox" name="Distancia"/> Ver Distancia
+
                     </p>
 
                     <!--LINEA DIVISORA-->
                     <hr>
 
-                    <!--AREA DE TEXTO DE LA PAGINA-->
+                    <!--SUBTITULO-->
                     <h2>Viajes</h2>
+
+                    <!--TEXTO-->
                     <p>
+
+                        <!--AREA DE TEXTO DE LA PAGINA-->
                         <TextArea id="Textarea" rows="6" readonly></TextArea>
+
                     </p>
 
                     <!--BOTONES DE LA PAGINA-->
@@ -122,11 +174,13 @@
 
                 </div>
 
+                <!--DIVISIONES EN LA PAGINA-->
                 <div id="Espacio2" style="display: none">
 
                     <!--LINEA DIVISORA-->
                     <hr>
 
+                    <!--SUBTITULO-->
                     <h2> Agregar Viaje </h2>
 
                     <!--TABLA-->
@@ -137,28 +191,46 @@
 
                             <!--COLUMNA 1-->
                             <td width="30%">
+
+                                <!--TEXTO-->
                                 <p align="left"> Por Lugar </p>
                                 <p align="left"> Por Fechas * </p>
                                 <p align="left"> &nbsp; </p>
                                 <p align="left"> Por Tags **</p>
+
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="right">
-                                <p>.</p>
+
+                                <!--TEXTO-->
+                                <p>
+
+                                    <!--CAMPO DE BUSQUEDA DEL MAPA-->
+                                    .
+
+                                </p>
                                 <p align="center"> Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin </p>
                                 <p>
+                                    <!--FECHA-->
                                     <input type="date" style="width:48%" id="NuevoInicio">
                                     <input type="date" style="width:48%" id="NuevoFin">
+
+                                </p>
+                                <p>
+
+                                    <!--CAMPO DE TEXTO-->
+                                    <input type="text" style="width:99%" id="Tags">
+
                                 </p>
 
-                                <p> <input type="text" style="width:99%" id="Tags"> </p>
                             </td>
 
                         </tr>
 
                     </table>
 
+                    <!--TEXT-->
                     <p align="left"> Datos personalizados: </p>
 
                     <!--TABLA-->
@@ -169,25 +241,33 @@
 
                             <!--COLUMNA 1-->
                             <td width="30%">
+
+                                <!--TEXTO-->
                                 <p align="left"> + Comida ** </p>
                                 <p align="left"> + Amigos ** </p>
+
                             </td>
 
                             <!--COLUMNA 2-->
                             <td align="right">
+
+                                <!--TEXTO-->
                                 <p> <input type="date" style="width:99%" id="NuevoComida"> </p>
                                 <p> <input type="date" style="width:99%" id="NuevoAmigos"> </p>
+
                             </td>
 
                         </tr>
 
                     </table>
 
+                    <!--TEXTO-->
                     <p align="right">
-                        * En firefox usar [dd/mm/aaaa]<br/>
+                        * En firefox usar [dd/mm/aaaa] <br/>
                         ** Un espacio es una nueva palabra
                     </p>
 
+                    <!--BOTONES DE PANTALLA-->
                     <button type="button" onclick="AgregarViaje()"> Aceptar </button>
                     <button type="button" onclick="MostrarOcultar(false)"> Cancelar </button>
 
@@ -201,6 +281,7 @@
             <!--COLUMNA 3-->
             <td class="fondo">
 
+                <!--SUBTITULOS-->
                 <h2> Mapa </h2>
 
             </td>
@@ -209,7 +290,7 @@
 
     </Table>
 
-    <!--BARRA INFERIOR DE LA PANTALLA-->
+    <!--DIVISION DE PANTALLA BARRA INFERIOR-->
     <div class="BarraInferior">
 
         <!--TABLA-->
@@ -220,12 +301,18 @@
 
                 <!--COLUMNA 1-->
                 <td align="left">
+
+                    <!--TEXTO-->
                     <p> Realizado por Yulay Segura & Lucia Solis & Joseph Vega </p>
+
                 </td>
 
                 <!--COLUMNA 2-->
                 <td align="right">
-                    <button type="button" onclick="Volver()"> Volver al menú </button>
+
+                    <!--BOTONES EN PANTALLA-->
+                    <button type="button" onclick="ViajaAPrincipal()"> Volver al menú </button>
+
                 </td>
 
             </tr>

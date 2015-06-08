@@ -68,6 +68,7 @@ p.Center {
     text-align: center;
 }
 
+/*Clase para dar visibilidad a bloque de texto*/
 p.Bloque {
     visibility: visible;
 }
@@ -79,6 +80,7 @@ table {
     text-align: center;
 }
 
+/*Clase para darle fondo a las columnas*/
 td.fondo {
     background: rgba(255, 255, 255, 0.6);
 }
