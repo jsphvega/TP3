@@ -9,16 +9,19 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   // Google Maps lat/long finder
   var defaultLatitude = 9.748917;
   var defaultLongitude = -83.753428;
-  var defaultMessage = 'Bienvenido!';
   var defaultZoom = 3;
   var mapContainer = 'map-canvas';
+  var mapOptions;
 
   function initialize() {
-    var mapOptions = {
+    mapOptions = {
       zoom: defaultZoom,
       mapTypeId: google.maps.MapTypeId.SATELLITE,
+      heading: 90,
+      tilt: 45,
       center: new google.maps.LatLng(defaultLatitude, defaultLongitude),
-      icon: defaultIconImage
+      icon: defaultIconImage,
+      position: new google.maps.LatLng(defaultLatitude, defaultLongitude)
     };
     map = new google.maps.Map(document.getElementById(mapContainer),
       mapOptions);
@@ -84,13 +87,6 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       navigator.geolocation.getCurrentPosition(function (position) {
         var pos = new google.maps.LatLng(position.coords.latitude,
           position.coords.longitude);
-
-        //var infowindow = new google.maps.InfoWindow({
-        //  map: map,
-        //  position: pos,
-        //  content: defaultMessage
-        //});
-
         map.setCenter(pos);
       }, function () {
         handleNoGeolocation(false);
@@ -107,18 +103,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     } else {
       var content = 'Error: Your browser doesn\'t support geolocation.';
     }
-
-    var options = {
-      map: map,
-      position: new google.maps.LatLng(defaultLatitude, defaultLongitude),
-      content: content,
-      mapTypeId: google.maps.MapTypeId.SATELLITE,
-      icon: defaultIconImage
-    };
-
-    //var infowindow = new google.maps.InfoWindow(options);
-
-    map.setCenter(options.position);
+    map.setCenter(mapOptions.position);
   }
 
   function loadScript() {
