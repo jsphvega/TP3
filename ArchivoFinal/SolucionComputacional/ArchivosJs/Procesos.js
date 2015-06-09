@@ -156,7 +156,7 @@ function OpcionMapa() {
 function CargarViajes(Lista){
   document.getElementById('DIV1-ListaOculta').innerHTML = "";
 
-  for (i=0; i<Lista.length; i++){
+  for (var i=0; i<Lista.length; i++){
     document.getElementById('DIV1-ListaOculta').innerHTML += "" +
         "<a href='"+ Lista[i][0] +"'>"+ Lista[i][1] +"</a> <br>";
   }
