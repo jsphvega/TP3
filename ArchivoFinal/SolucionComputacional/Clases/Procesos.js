@@ -97,7 +97,9 @@ function ConvertirTextoLista() {
 function InicioViajero() {
     ColocaUsuario();
     BloqueoListButton(1);
-    CargarViajes();
+    CargarViajes([["http://yahoo.com","Yahoo"],
+      ["http://google.com","Google"],
+      ["http://webdeveloper.com","Web Developer"]]);
     OpcionMapa();
     ConvertirTextoLista();
 }
@@ -120,7 +122,6 @@ function ColocaUsuario () {
     } else {
         document.getElementById('LV-Bienvenido').innerHTML += ":" + Usuario; //Arreglar con el .json
     }
-
 }
 
 function BloqueoListButton (pos) {
@@ -152,15 +153,11 @@ function OpcionMapa() {
     alert("Opcion Mapa Publico vista");
 }
 
-function CargarViajes(){
-    document.getElementById('DIV1-ListaOculta').innerHTML = "" +
-        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
-        "<a href='http://google.com'>Google</a> <br>" +
-        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
-        "<a href='http://google.com'>Google</a> <br>" +
-        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
-        "<a href='http://google.com'>Google</a> <br>" +
-        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
-        "<a href='http://google.com'>Google</a> <br>" +
-        "<a href='http://webdeveloper.com'>Web Developer</a>";
+function CargarViajes(Lista){
+  document.getElementById('DIV1-ListaOculta').innerHTML = "";
+
+  for (i=0; i<Lista.length; i++){
+    document.getElementById('DIV1-ListaOculta').innerHTML += "" +
+        "<a href='"+ Lista[i][0] +"'>"+ Lista[i][1] +"</a> <br>";
+  }
 }
