@@ -10,18 +10,21 @@
     <title>Libreta  del  Viajero</title>
 
     <!--LLAMA AL .CSS PARA LOS ESTILOS-->
-    <link rel="stylesheet" href="Clases/ClasesInterfaz.css">
+    <link rel="stylesheet" href="ArchivosCss/ClasesInterfaz.css">
+    <link rel="stylesheet" href="ArchivosCss/googleMaps.css">
 
     <!--LLAMA AL .js PARA LOS   PROCESOS-->
-    <script type="text/javascript" src="Clases/Procesos.js"></script>
+    <script type="text/javascript" src="ArchivosJs/Procesos.js"></script>
+    <script src="ArchivosJs/googleMaps.js"></script>
+    <script src="ArchivosJs/navigationGoogleMaps.js"></script>
+    <script src="ArchivosJs/bootstrap-without-jquery.js"></script>
 
 </head>
 
-<!--CUERPO DE LA PAGINA-->
-<body onload="InicioViajero()">
+<body onshow="InicioViajero()">
 
     <!--FONDO DE LA PANTALLA-->
-    <img id="Fondo" src="Imagenes/Fondo.jpg"  alt="background" />
+    <img id="Fondo" src="Imagenes/Fondo.jpg" alt="background" />
 
     <!--TABLA-->
     <Table width="100%" height="93%" align="center">
@@ -38,7 +41,7 @@
                 <h2>
 
                     <!--ETIQUETA-->
-                        <label id="LV-Bienvenido">Bienvenido</label>
+                    <label id="LV-Bienvenido">Bienvenido</label>
 
                 </h2>
 
@@ -151,9 +154,6 @@
 
                     </p>
 
-                    <!--LINEA DIVISORA-->
-                    <hr>
-
                     <!--SUBTITULO-->
                     <h2>Viajes</h2>
 
@@ -186,7 +186,9 @@
                     <hr>
 
                     <!--SUBTITULO-->
-                    <h2> Agregar Viaje </h2>
+                    <h2>
+                        Agregar Viaje
+                    </h2>
 
                     <!--TABLA-->
                     <table width="100%">
@@ -195,13 +197,10 @@
                         <tr>
 
                             <!--COLUMNA 1-->
-                            <td width="30%">
+                            <td width="30%" valign="middle">
 
                                 <!--TEXTO-->
                                 <p align="left"> Dirección: </p>
-                                <p align="left"> Fecha: </p>
-                                <p align="left"> &nbsp; </p>
-                                <p align="left"> Tags: </p>
 
                             </td>
 
@@ -209,17 +208,31 @@
                             <td align="right">
 
                                 <!--TEXTO-->
-                                <p>
-
+                                <p style="width: 100%">
                                     <!--CAMPO DE BUSQUEDA DEL MAPA-->
-                                    .
-
+                                    <input style="width:99%"  id="pac-input" type="text" placeholder="Dirección">
                                 </p>
 
+                                <p align="left">
+                                    Latitud: <label id="longitude"></label> <br/>
+                                    Longitud: <label id="latitude"></label>
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        <!--FILA 2-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td width="30%" valign="middle">
                                 <!--TEXTO-->
-                                <p align="center">
-                                    Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin
-                                </p>
+                                <p align="left"> Fecha: </p>
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
 
                                 <!--TEXTO-->
                                 <p>
@@ -229,6 +242,29 @@
                                     <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Fin">
 
                                 </p>
+
+                                <!--TEXTO-->
+                                <p align="center">
+                                    Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                        <!--FILA 3-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td width="30%" valign="middle">
+
+                                <!--TEXTO-->
+                                <p align="left"> Tags: </p>
+
+                            </td>
+
+                            <!--COLUMNA 2-->
+                            <td align="right">
 
                                 <!--TEXTO-->
                                 <p>
@@ -277,7 +313,7 @@
 
                     </table>
 
-                    <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE-->  <br/> <br/>
+                    <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE-->  <br/>
 
                     <!--BOTONES DE PANTALLA-->
                     <button type="button" onclick="AgregarViaje()"> Aceptar </button>
@@ -291,10 +327,10 @@
             <td> </td>
 
             <!--COLUMNA 3-->
-            <td class="fondo">
+            <td class="fondo" width="60%">
 
-                <!--SUBTITULOS-->
-                <h2> Mapa Lucia</h2>
+                <!--MAPA-->
+                <div id="map-canvas" class="google-map-canvas"></div>
 
             </td>
 

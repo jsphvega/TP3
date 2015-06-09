@@ -1,0 +1,40 @@
+body,
+.container-fluid,
+.row,
+.map {
+  height: 97.6%;
+}
+#map-canvas {
+  width: 98%;
+  height: 97%;
+}
+.bg-blue {
+  background-color: #245269;
+}
+.bg-light-blue {
+  background-color: #31b0d5;
+}
+.controls {
+  margin-top: 16px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.container-add-trip {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
