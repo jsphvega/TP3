@@ -5,13 +5,13 @@ html
     meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
     meta(charset="utf-8")
     // Styles
-    // Bootstrap core CSS
+     Bootstrap core CSS
     link(href="css/bootstrap.min.css", rel="stylesheet")
     // Bootstrap theme
     link(href="css/bootstrap-theme.min.css", rel="stylesheet")
     // Custom styles for this template
     link(href="css/theme.css", rel="stylesheet")
-
+    //
     link(rel="stylesheet", href="css/googleMaps.css")
   body
     .navbar.navbar-inverse.navbar-fixed-top(role="navigation")
@@ -58,9 +58,9 @@ html
             li.active(role="presentation")
               a(href="#addTrip", onclick="navigationAdmin.changeTab('addTrip)") Agregar viaje
             li(role="presentation")
-              a(href="#others") Profile
+              a(href="#others") ----
             li(role="presentation")
-              a(href="#") Messages
+              a(href="#") -------
 
           .tab-content
             .tab-pane.active#addTrip
@@ -69,6 +69,14 @@ html
                   .form-group
                     label(for="pac-input") Sitio a buscar
                     input#pac-input.form-control(type="text", placeholder="Dirección")
+                  .form-group
+                    b Posición actual
+                    br
+                    div.text-primary Latitud
+                    #latitude
+                    div.text-primary Longitud
+                    #longitude
+                    #address
                   button.btn.btn-primary(type="submit") Agregar
 
             .tab-pane#others Profile
