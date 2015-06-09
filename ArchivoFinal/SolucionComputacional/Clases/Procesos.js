@@ -65,6 +65,28 @@ function ObtenerVariables(){
     return ArregloObjetos;
 }
 
+/****************************************************************************************************
+ * Funcion que bloquea y desbloquea la opcion de importar datos.                                    *
+ ****************************************************************************************************/
+function VerOpcionBusqueda() {
+    if (document.getElementById('DIV1-Buscar').style.display == 'none') {
+        document.getElementById('DIV1-Buscar').style.display='block';
+        document.getElementById('DIV1-Importar').innerHTML = 'Ocultar';
+    } else {
+        document.getElementById('DIV1-Buscar').style.display='none';
+        document.getElementById('DIV1-Importar').innerHTML = 'Importar';
+    }
+}
+
+/****************************************************************************************************
+ * Funcion que convierte los datos de tipo HTML a texto corriente conservando los mismos formatos.  *
+ ****************************************************************************************************/
+function ConvertirTextoLista() {
+    str = document.getElementById("DIV1-ListaOculta").value;
+    str = str.replace(/\r\n|\n/g,'<br>');
+    document.getElementById('DIV1-ListaVisible').innerHTML = str;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // POR REVISAR Y COSNTRUIR                                                                              //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -131,7 +153,7 @@ function OpcionMapa() {
 }
 
 function CargarViajes(){
-    document.getElementById('S1').innerHTML = "" +
+    document.getElementById('DIV1-ListaOculta').innerHTML = "" +
         "<a href='http://yahoo.com'>Yahoo</a> <br>" +
         "<a href='http://google.com'>Google</a> <br>" +
         "<a href='http://yahoo.com'>Yahoo</a> <br>" +
@@ -141,20 +163,4 @@ function CargarViajes(){
         "<a href='http://yahoo.com'>Yahoo</a> <br>" +
         "<a href='http://google.com'>Google</a> <br>" +
         "<a href='http://webdeveloper.com'>Web Developer</a>";
-}
-
-function VerOpcionBusqueda() {
-    if (document.getElementById('DIV1-Buscar').style.display == 'none') {
-        document.getElementById('DIV1-Buscar').style.display='block';
-        document.getElementById('DIV1-Importar').innerHTML = 'Ocultar';
-    } else {
-        document.getElementById('DIV1-Buscar').style.display='none';
-        document.getElementById('DIV1-Importar').innerHTML = 'Importar';
-    }
-}
-
-function ConvertirTextoLista() {
-    str = document.getElementById("S1").value;
-    str = str.replace(/\r\n|\n/g,'<br>');
-    document.getElementById('txtLinks').innerHTML = str;
 }

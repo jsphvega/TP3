@@ -58,6 +58,7 @@ div.BarraInferior {
     width: 100%;
 }
 
+/*Clase de <div> para crear la lista de viajes*/
 div.Lista {
     background: rgba(255, 255, 255, 0.6);
     font-size: 80%;

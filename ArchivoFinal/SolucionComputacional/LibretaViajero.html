@@ -158,10 +158,10 @@
                     <h2>Viajes</h2>
 
                     <!--AREA DE TEXTO-->
-                    <textarea id="S1" name="S1" style="display:none; width:0%; height:0%"> </textarea>
+                    <textarea id="DIV1-ListaOculta" name="ListaOculta" style="display:none; width:0%; height:0%"> </textarea>
 
                     <!--DIVISION DE PANTALLA-->
-                    <div class="Lista" id="txtLinks" align="left"></div>
+                    <div class="Lista" id="DIV1-ListaVisible" align="left"></div>
 
                     <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE--> <br/>
 
@@ -198,10 +198,10 @@
                             <td width="30%">
 
                                 <!--TEXTO-->
-                                <p align="left"> Por Lugar </p>
-                                <p align="left"> Por Fechas * </p>
+                                <p align="left"> Dirección: </p>
+                                <p align="left"> Fecha: </p>
                                 <p align="left"> &nbsp; </p>
-                                <p align="left"> Por Tags **</p>
+                                <p align="left"> Tags: </p>
 
                             </td>
 
@@ -215,17 +215,26 @@
                                     .
 
                                 </p>
-                                <p align="center"> Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin </p>
+
+                                <!--TEXTO-->
+                                <p align="center">
+                                    Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin
+                                </p>
+
+                                <!--TEXTO-->
                                 <p>
+
                                     <!--FECHA-->
-                                    <input type="date" style="width:48%" id="NuevoInicio">
-                                    <input type="date" style="width:48%" id="NuevoFin">
+                                    <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Inicio">
+                                    <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Fin">
 
                                 </p>
+
+                                <!--TEXTO-->
                                 <p>
 
                                     <!--CAMPO DE TEXTO-->
-                                    <input type="text" style="width:99%" id="Tags">
+                                    <input type="text" placeholder="#tag : palabra" style="width:99%" id="DIV2-Tags">
 
                                 </p>
 
@@ -234,6 +243,8 @@
                         </tr>
 
                     </table>
+
+                    <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE--> <br/>
 
                     <!--TEXT-->
                     <p align="left"> Datos personalizados: </p>
@@ -248,8 +259,8 @@
                             <td width="30%">
 
                                 <!--TEXTO-->
-                                <p align="left"> + Comida ** </p>
-                                <p align="left"> + Amigos ** </p>
+                                <p align="left"> + Comida</p>
+                                <p align="left"> + Amigos</p>
 
                             </td>
 
@@ -257,8 +268,8 @@
                             <td align="right">
 
                                 <!--TEXTO-->
-                                <p> <input type="date" style="width:99%" id="NuevoComida"> </p>
-                                <p> <input type="date" style="width:99%" id="NuevoAmigos"> </p>
+                                <p> <input type="text" placeholder="#comida : palabra" style="width:99%" id="DIV2-Comida"> </p>
+                                <p> <input type="text" placeholder="#amigo : palabra" style="width:99%" id="DIV2-Amigos"> </p>
 
                             </td>
 
@@ -266,11 +277,7 @@
 
                     </table>
 
-                    <!--TEXTO-->
-                    <p align="right">
-                        * En firefox usar [dd/mm/aaaa] <br/>
-                        ** Un espacio es una nueva palabra
-                    </p>
+                    <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE-->  <br/> <br/>
 
                     <!--BOTONES DE PANTALLA-->
                     <button type="button" onclick="AgregarViaje()"> Aceptar </button>
@@ -287,7 +294,7 @@
             <td class="fondo">
 
                 <!--SUBTITULOS-->
-                <h2> Mapa </h2>
+                <h2> Mapa Lucia</h2>
 
             </td>
 
