@@ -35,7 +35,7 @@ h2 {
 button {
     text-align: center;
     font-size: 100%;
-    width:150px;
+    width:145px;
     height:30px;
 }
 
@@ -45,17 +45,28 @@ button {
 div {
     margin: 0 auto;
     padding:5px;
+    font-family: courier, sans-serif;
+
 }
 
 /*Clase de <div> para crear la barra estatica inferior*/
-div.BarraInferior{
-    position:fixed;
+div.BarraInferior {
+    position: fixed;
     background: rgba(255, 255, 255, 0.6);
-    left:0;
-    bottom:0;
+    left: 0;
+    bottom: 0;
     width: 100%;
 }
 
+div.Lista {
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 80%;
+    width:95%;
+    min-height:100px;
+    border:1px solid black;
+    max-height:100px;
+    overflow-y: scroll;
+}
 /**********************************************************************************************************************
  TEXTO
  **********************************************************************************************************************/

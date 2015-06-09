@@ -1,6 +1,6 @@
-/**
- * Funcion que traslada de pantalla principal a libreta de viajero.
- * */
+/****************************************************************************************************
+ * Funcion que traslada de pantalla principal a libreta de viajero.                                 *
+ ****************************************************************************************************/
 function ViajaAViajero(tipo) {
 
     //Variables locales
@@ -21,9 +21,9 @@ function ViajaAViajero(tipo) {
     }
 }
 
-/**
- * Funcion que traslada de ibreta de viajero a pantalla principal.
- * */
+/****************************************************************************************************
+ * Funcion que traslada de ibreta de viajero a pantalla principal.                                  *
+ ****************************************************************************************************/
 function ViajaAPrincipal() {
 
     //Condicion que valida si desea vlover o no a pantalla principal
@@ -32,19 +32,9 @@ function ViajaAPrincipal() {
     }
 }
 
-/**
- * Funcion que se ejecuta al comenzar la pantalla Viajero
- * @constructor
- */
-function InicioViajero() {
-    RellenarTextArea ();
-
-    document.getElementById('Bienvenido').innerHTML += ": josephcito";
-}
-
-/**
- * Funcion que revisa cual opcion se presiono para mostrar en pantalla
- * */
+/*****************************************************************************************************
+ * Funcion que revisa cual opcion se presiono para mostrar en pantalla.                              *
+ *****************************************************************************************************/
 function MostrarOcultar(Condicion) {
 
     //Condicion que valida la condicion
@@ -57,9 +47,38 @@ function MostrarOcultar(Condicion) {
     }
 }
 
-///////////////////////////////////////////////////
-// POR REVISAR Y COSNTRUIR
-///////////////////////////////////////////////////
+/****************************************************************************************************
+ * Funcion que extrae las variables del url.                                                        *
+ ****************************************************************************************************/
+function ObtenerVariables(){
+    //Variables Locales
+    var url = location.search.replace("?", "");
+    var ListaVaiables = url.split("&");
+    var ArregloObjetos = {};
+
+    //Ciclo que va ir partiendo las variables en una lista de objetos
+    for(var i=0; i<ListaVaiables.length; i++){
+        var x= ListaVaiables[i].split("=");
+        ArregloObjetos[x[0]]=x[1]
+    }
+
+    return ArregloObjetos;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// POR REVISAR Y COSNTRUIR                                                                              //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Funcion que se ejecuta al comenzar la pantalla Viajero
+ */
+function InicioViajero() {
+    ColocaUsuario();
+    BloqueoListButton(1);
+    CargarViajes();
+    OpcionMapa();
+    ConvertirTextoLista();
+}
 
 function AgregarViaje() {
     if (confirm("¿Esta seguro de sus datos?")) {
@@ -70,6 +89,72 @@ function AgregarViaje() {
     MostrarOcultar(false)
 }
 
-function RellenarTextArea () {
-    document.getElementById('Textarea').value = "af\nsdsdbsfg";
+function ColocaUsuario () {
+
+    var Usuario = ObtenerVariables().user;
+
+    if (Usuario != "NONE"){
+        document.getElementById('LV-Bienvenido').innerHTML += ":" + Usuario;
+    } else {
+        document.getElementById('LV-Bienvenido').innerHTML += ":" + Usuario; //Arreglar con el .json
+    }
+
+}
+
+function BloqueoListButton (pos) {
+    if (pos == 2) {
+        document.getElementById('DIV1-Tags').disabled = true;
+        document.getElementById('DIV1-FechaInicio').disabled = false;
+        document.getElementById('DIV1-FechaFin').disabled = false;
+    } else if (pos == 3) {
+        document.getElementById('DIV1-Tags').disabled = false;
+        document.getElementById('DIV1-FechaInicio').disabled = true;
+        document.getElementById('DIV1-FechaFin').disabled = true;
+    } else {
+        document.getElementById('DIV1-Tags').disabled = true;
+        document.getElementById('DIV1-FechaInicio').disabled = true;
+        document.getElementById('DIV1-FechaFin').disabled = true;
+    }
+}
+
+function TrazarRuta() {
+    alert("Opcion Trazar ruta vista");
+}
+
+function VerDistancia() {
+    alert("Opcion ver distancia vista");
+    document.getElementById('DIV1-Ruta').checked = true;
+}
+
+function OpcionMapa() {
+    alert("Opcion Mapa Publico vista");
+}
+
+function CargarViajes(){
+    document.getElementById('S1').innerHTML = "" +
+        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
+        "<a href='http://google.com'>Google</a> <br>" +
+        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
+        "<a href='http://google.com'>Google</a> <br>" +
+        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
+        "<a href='http://google.com'>Google</a> <br>" +
+        "<a href='http://yahoo.com'>Yahoo</a> <br>" +
+        "<a href='http://google.com'>Google</a> <br>" +
+        "<a href='http://webdeveloper.com'>Web Developer</a>";
+}
+
+function VerOpcionBusqueda() {
+    if (document.getElementById('DIV1-Buscar').style.display == 'none') {
+        document.getElementById('DIV1-Buscar').style.display='block';
+        document.getElementById('DIV1-Importar').innerHTML = 'Ocultar';
+    } else {
+        document.getElementById('DIV1-Buscar').style.display='none';
+        document.getElementById('DIV1-Importar').innerHTML = 'Importar';
+    }
+}
+
+function ConvertirTextoLista() {
+    str = document.getElementById("S1").value;
+    str = str.replace(/\r\n|\n/g,'<br>');
+    document.getElementById('txtLinks').innerHTML = str;
 }

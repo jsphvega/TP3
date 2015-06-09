@@ -38,7 +38,7 @@
                 <h2>
 
                     <!--ETIQUETA-->
-                    <label id="Bienvenido">Bienvenido</label>
+                        <label id="LV-Bienvenido">Bienvenido</label>
 
                 </h2>
 
@@ -64,7 +64,7 @@
                                 <p align="left">
 
                                     <!--LISTAS DE BOTONES-->
-                                    <input type="radio" checked name="Viajes">
+                                    <input type="radio" checked id="Boton1" name="DIV1-Mapa" onclick="BloqueoListButton(1)">
 
                                     Todos
 
@@ -92,7 +92,7 @@
                                 <p align="left">
 
                                     <!--LISTA DE BOTONES-->
-                                    <input type="radio" name="Viajes"/>
+                                    <input type="radio" id="Boton2" name="DIV1-Mapa" onclick="BloqueoListButton(2)"/>
 
                                     Por fecha
 
@@ -101,11 +101,11 @@
                             </td>
 
                             <!--COLUMNA 2-->
-                            <td align="right">
+                            <td align="center">
 
                                 <!--FECHA-->
-                                <input type="date" style="width:48%" id="Inicio">
-                                <input type="date" style="width:48%" id="Fin">
+                                <input type="date" placeholder="dd/mm/aaaa" style="width:47%" id="DIV1-FechaInicio">
+                                <input type="date" placeholder="dd/mm/aaaa" style="width:47%" id="DIV1-FechaFin">
 
                             </td>
 
@@ -121,7 +121,7 @@
                                 <p align="left">
 
                                     <!--LISTA DE BOTONES-->
-                                    <input type="radio" name="Viajes"/>
+                                    <input type="radio" id="Boton3" name="DIV1-Mapa" onclick="BloqueoListButton(3)"/>
 
                                     Tags
 
@@ -130,10 +130,10 @@
                             </td>
 
                             <!--COLUMNA 2-->
-                            <td align="right">
+                            <td align="center">
 
                                 <!--CAMPO DE TEXTO-->
-                                <input type="text" style="width:97%" id="NuevoTags">
+                                <input type="text" placeholder="#tag : palabra" style="width:97%" id="DIV1-Tags">
 
                             </td>
 
@@ -141,15 +141,13 @@
 
                     </table>
 
-                    <!--SALTOS DE PAGINA PARA QUE EL TEXTO SE ACOMODE--> <br>
-
                     <!--TEXTO-->
                     <p>
 
                         <!--LISTAS DE CHEQUEO-->
-                        <input type="checkbox" name="Ruta"/> Trazar Ruta
-                        <input type="checkbox" checked name="Publico" /> Mapa Publico
-                        <input type="checkbox" name="Distancia"/> Ver Distancia
+                        <input type="checkbox" id="DIV1-Ruta" name="Ruta" onclick="TrazarRuta()"/> Trazar Ruta
+                        <input type="checkbox" id="DIV1-Distancia" name="Distancia" onclick="VerDistancia()"/> Ver Distancia
+                        <input type="checkbox" id="DIV1-Publico" name="Publico" checked onclick="OpcionMapa()"/> Mapa Publico
 
                     </p>
 
@@ -159,18 +157,25 @@
                     <!--SUBTITULO-->
                     <h2>Viajes</h2>
 
-                    <!--TEXTO-->
-                    <p>
+                    <!--AREA DE TEXTO-->
+                    <textarea id="S1" name="S1" style="display:none; width:0%; height:0%"> </textarea>
 
-                        <!--AREA DE TEXTO DE LA PAGINA-->
-                        <TextArea id="Textarea" rows="6" readonly></TextArea>
+                    <!--DIVISION DE PANTALLA-->
+                    <div class="Lista" id="txtLinks" align="left"></div>
 
-                    </p>
+                    <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE--> <br/>
 
                     <!--BOTONES DE LA PAGINA-->
                     <button type="button" onclick="MostrarOcultar(true)"> Nuevo Viaje </button>
-                    <button type="button"> Importar </button>
+                    <button type="button" onclick="VerOpcionBusqueda()">
+                        <label id="DIV1-Importar">Importar</label>
+                    </button>
                     <button type="button"> Exportar </button>
+
+                    <!--CONTENEDOR DEL INPUT FILE-->
+                    <div id="DIV1-Buscar" align="Center" style="display:none;border:1px solid black; width:87%">
+                        <input type="file" id="Archivo" accept=".json">
+                    </div>
 
                 </div>
 
