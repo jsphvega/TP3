@@ -1,3 +1,5 @@
+var ListaUsuario = [];
+
 /****************************************************************************************************
  * Funcion que traslada de pantalla principal a libreta de viajero.                                 *
  ****************************************************************************************************/
@@ -79,51 +81,37 @@ function VerOpcionBusqueda() {
 }
 
 /****************************************************************************************************
- * Funcion que convierte los datos de tipo HTML a texto corriente conservando los mismos formatos.  *
+ * Funcion que carga todos los viajes por medio de una lista para que puedan ser accesados          *
  ****************************************************************************************************/
-function ConvertirTextoLista() {
-    str = document.getElementById("DIV1-ListaOculta").value;
-    str = str.replace(/\r\n|\n/g,'<br>');
-    document.getElementById('DIV1-ListaVisible').innerHTML = str;
-}
+function CargarViajes(Lista){
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-// POR REVISAR Y COSNTRUIR                                                                              //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+    document.getElementById('DIV1-ListaVisible').innerHTML = "";
 
-/**
- * Funcion que se ejecuta al comenzar la pantalla Viajero
- */
-function InicioViajero() {
-    ColocaUsuario();
-    BloqueoListButton(1);
-    CargarViajes([["http://yahoo.com","Yahoo"],
-      ["http://google.com","Google"],
-      ["http://webdeveloper.com","Web Developer"]]);
-    OpcionMapa();
-    ConvertirTextoLista();
-}
+    //Ciclo que va ir asignando los datos en la lista
+    for (var i=0; i<Lista.length; i++){
 
-function AgregarViaje() {
-    if (confirm("¿Esta seguro de sus datos?")) {
-        alert("Viaje almacenado correctamente");
-    } else {
-        alert("Error al almacenar el viaje");
-    }
-    MostrarOcultar(false)
-}
+        //Asigna en la pagina los datos del archivo
+        document.getElementById('DIV1-ListaVisible').innerHTML += "" +
 
-function ColocaUsuario () {
-
-    var Usuario = ObtenerVariables().user;
-
-    if (Usuario != "NONE"){
-        document.getElementById('LV-Bienvenido').innerHTML += ":" + Usuario;
-    } else {
-        document.getElementById('LV-Bienvenido').innerHTML += ":" + Usuario; //Arreglar con el .json
+            "<u><a onclick=\"VerEditar(\'" + Lista[i] +"\')\">Ver/Editar</a></u> " +
+            Lista[i] +"<br>";
     }
 }
 
+/****************************************************************************************************
+  Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
+ ****************************************************************************************************/
+function VerEditar (Dir) {
+    //VAriable Local
+    var Ir = "VerLibreta.html?Dir=" + Dir + "";
+
+    //Abre la pantalla emergente
+    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=600,height=340");
+}
+
+/****************************************************************************************************
+ * Funcion que bloquea opciones en pantalla dependiendo de la busqueda                              *
+ ****************************************************************************************************/
 function BloqueoListButton (pos) {
     if (pos == 2) {
         document.getElementById('DIV1-Tags').disabled = true;
@@ -140,6 +128,149 @@ function BloqueoListButton (pos) {
     }
 }
 
+/****************************************************************************************************
+ * Funcion que se ejecuta para cargar los datos del usuario segun la busqueda realizada             *
+ ****************************************************************************************************/
+function CargarDatos() {
+    //Extrae los datos
+    var Lista = ExtraerDatosJSON();
+
+    //Condicion para saber si esta vacia o no
+    if (Lista == ""){
+        alert("Error al cargar lo datos");
+        return;
+    }
+
+    //Asigna el titulo en la pagina
+    document.getElementById('LV-Bienvenido').innerHTML = "Bienvenido:" +
+        Lista[0];
+
+    //Condicion para saber si esta vacia o no
+    if (Lista[1] != "publico"){
+        alert("Error, los datos no son públicos");
+        return;
+    } else {
+        document.getElementById('DIV1-Publico').checked = true;
+    }
+
+    //Lista de los lugares para la sesión
+    var Lugares = [];
+    for (var i=0; i<Lista[2].length; i++){
+        Lugares = Lugares.concat(Lista[2][i][0]);
+    }
+
+    //LLama a la lista a cargar los datos
+    CargarViajes(Lugares);
+
+    //Alerta
+    alert("Datos cargados correctamente");
+}
+
+/****************************************************************************************************
+ * Funcion que se ejecuta al comenzar la pantalla Viajero                                           *
+ ****************************************************************************************************/
+function InicioViajero() {
+
+    //Para crear el evento despues de buscar el archivo
+    document.getElementById('Archivo').addEventListener('change', CargarDatos, false)
+
+    //Para colocar el nombre si no existe
+    var Usuario = ObtenerVariables().user;
+    if (Usuario != "NONE"){
+        document.getElementById('LV-Bienvenido').innerHTML += ":" +
+            Usuario.charAt(0).toUpperCase() + Usuario.slice(1);
+    }
+
+    //Bloquea los botones de la pantalla
+    BloqueoListButton(1);
+
+    //Lo crea publico ya que el usuario es nuevo
+    document.getElementById('DIV1-Publico').checked = true;
+}
+
+/****************************************************************************************************
+ * Funcion que se ejecuta al comenzar la pantalla agregar viajero                                   *
+ ****************************************************************************************************/
+function InicioVer(){
+
+    //Variable que obtiene la direccion del url
+    var Direccion = ObtenerVariables().Dir;
+
+    //Ciclo que va sustituyendo las letras incorrectas por letras legibles
+    while(Direccion.indexOf('%20') >= 0) {
+        Direccion = Direccion.replace('%20',' ');
+    }
+
+    //Asigna la direccion en la pantalla
+    document.getElementById('VE-Direccion').innerHTML = Direccion;
+
+    //Extrae los datos en la lista
+    window.ListaUsuario = (ExtraerDatosJSON()[2]);
+
+    //Ciclo que revisa y asigna los datos
+    for(var i=0; i<window.ListaUsuario.length; i++){
+
+        //COndicion que revisa si los datos de la lista coinciden con los de la direccion
+        if(window.ListaUsuario[i][0] == Direccion){
+
+            document.getElementById('VE-longitude').innerHTML = window.ListaUsuario[i][2];
+            document.getElementById('VE-latitude').innerHTML = window.ListaUsuario[i][1];
+            document.getElementById('VE-Inicio').innerHTML = window.ListaUsuario[i][4];
+            document.getElementById('VE-Fin').innerHTML = window.ListaUsuario[i][5];
+            document.getElementById('VE-Tags').innerHTML = window.ListaUsuario[i][3];
+            document.getElementById('VE-Comida').value = window.ListaUsuario[i][6];
+            document.getElementById('VE-Amigos').value = window.ListaUsuario[i][7];
+
+            //informa al usuaro y retorna
+            alert("Datos cargados correctamente");
+            return;
+        }
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// POR REVISAR Y CONSTRUIR                                                                              //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/****************************************************************************************************
+ * Funcion que lo que realiza es partir el texto en una lista que incluya los tag, comidas y amigos  *
+ ****************************************************************************************************/
+function PartirTexto(Texto){
+
+    var Palabras = Texto.split(' ');
+    var NuevoTexto = [];
+
+    for (var i=0; i<Texto.length; i++) {
+
+        if (Palabras[i].charAt(0) == '#'){
+            NuevoTexto.push(Palabras[i].toString().toLowerCase());
+        }
+    }
+
+    return NuevoTexto;
+}
+
+function AgregarViaje() {
+
+    if (confirm("¿Esta seguro de sus datos?")) {
+        alert("Viaje almacenado correctamente");
+    } else {
+        alert("Error al almacenar el viaje");
+    }
+    MostrarOcultar(false)
+}
+
+function ModificarViaje() {
+
+    if (confirm("¿Esta seguro de sus datos?")) {
+        alert("Viaje editado correctamente");
+    } else {
+        alert("Error al editar el viaje");
+    }
+
+    close();
+}
+
 function TrazarRuta() {
     alert("Opcion Trazar ruta vista");
 }
@@ -149,15 +280,31 @@ function VerDistancia() {
     document.getElementById('DIV1-Ruta').checked = true;
 }
 
-function OpcionMapa() {
-    alert("Opcion Mapa Publico vista");
+function Estadistica(Lista) {
+    /**Se   debe   mostrar   en   todo   momento   las   siguientes   estadísticas   el   viajero:
+     * Total  de  viajes,  total  de  días  en  viaje,  total  de  distancia  (en  kilómetros)
+     * recorrida,  Cantidad  de ciudades visitadas, cantidad de países visitados.  
+     *
+     * Distancia = raiz([x2 - x1]cuadrado + [y2 - y1]cuadrado)*/
+
 }
 
-function CargarViajes(Lista){
-  document.getElementById('DIV1-ListaOculta').innerHTML = "";
+//PROCEDIMIENTOS DE YULAY
 
-  for (var i=0; i<Lista.length; i++){
-    document.getElementById('DIV1-ListaOculta').innerHTML += "" +
-        "<a href='"+ Lista[i][0] +"'>"+ Lista[i][1] +"</a> <br>";
-  }
+function ExtraerDatosJSON (){
+
+    //[Usuario,PrivacidadMapa,[viajes]]
+    //[viajes] = [NombreLugar,Latitud,Longitud,Tags,FechaLlegada,FechaIda]
+
+    var viaje = ['TP3','publico',
+        [
+            ['Joseph','37.423901','-122.091497','#Haciendo #Interfaz','10/06/2015','10/06/2015',"#Pizza","#Todos"],
+            ['Lucia','37.424194','-122.092699','#Haciendo #Mapa','10/06/2015','10/06/2015',"#Pizza","#Todos"],
+            ['Yulay','37.423152','-122.092456','#Haciendo #JSON','10/06/2015','10/06/2015',"#Pizza","#Todos"]
+        ]
+    ];
+
+    window.ListaUsuario = viaje;
+
+    return viaje;
 }

@@ -150,7 +150,7 @@
                         <!--LISTAS DE CHEQUEO-->
                         <input type="checkbox" id="DIV1-Ruta" name="Ruta" onclick="TrazarRuta()"/> Trazar Ruta
                         <input type="checkbox" id="DIV1-Distancia" name="Distancia" onclick="VerDistancia()"/> Ver Distancia
-                        <input type="checkbox" id="DIV1-Publico" name="Publico" checked onclick="OpcionMapa()"/> Mapa Publico
+                        <input type="checkbox" id="DIV1-Publico" name="Publico"/> Mapa Publico
 
                     </p>
 
@@ -207,15 +207,15 @@
                             <!--COLUMNA 2-->
                             <td align="right">
 
+                                <p align="left">
+                                    Latitud: <label id="longitude"></label> <br/>
+                                    Longitud: <label id="latitude"></label>
+                                </p>
+
                                 <!--TEXTO-->
                                 <p style="width: 100%">
                                     <!--CAMPO DE BUSQUEDA DEL MAPA-->
                                     <input style="width:99%"  id="pac-input" type="text" placeholder="Dirección">
-                                </p>
-
-                                <p align="left">
-                                    Latitud: <label id="longitude"></label> <br/>
-                                    Longitud: <label id="latitude"></label>
                                 </p>
 
                             </td>
@@ -235,17 +235,17 @@
                             <td align="right">
 
                                 <!--TEXTO-->
+                                <p align="center">
+                                    Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin
+                                </p>
+
+                                <!--TEXTO-->
                                 <p>
 
                                     <!--FECHA-->
                                     <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Inicio">
                                     <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Fin">
 
-                                </p>
-
-                                <!--TEXTO-->
-                                <p align="center">
-                                    Inicio &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fin
                                 </p>
 
                             </td>
