@@ -87,6 +87,52 @@ function ConvertirTextoLista() {
     document.getElementById('DIV1-ListaVisible').innerHTML = str;
 }
 
+/****************************************************************************************************
+ * Funcion que carga todos los viajes por medio de una lista para que puedan ser accesados          *
+ ****************************************************************************************************/
+function CargarViajes(Lista){
+
+    document.getElementById('DIV1-ListaOculta').innerHTML = "";
+
+    //Ciclo que va ir asignando los datos en la lista
+    for (var i=0; i<Lista.length; i++){
+        document.getElementById('DIV1-ListaOculta').innerHTML += "" +
+            "<u> <a onclick='VerEditar(\"" + Lista[i] + "\")'>Ver/Editar</a></u> " +
+            Lista[i] +"<br>";
+    }
+
+    ;
+}
+
+/****************************************************************************************************
+ * Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
+ ****************************************************************************************************/
+function VerEditar (Dir) {
+    //VAriable Local
+    var Ir = "VerLibreta.html?Dir=" + Dir + "";
+
+    //Abre la pantalla emergente
+    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=600,height=340");
+}
+
+/****************************************************************************************************
+ * Funcion que lo que realiza es partir el texto en una lista que inluya los tag, comidas y amigos  *
+ ****************************************************************************************************/
+function PartirTexto(Texto){
+
+    var Palabras = Texto.split(' ');
+    var NuevoTexto = [];
+
+    for (var i=0; i<Texto.length; i++) {
+
+        if (Palabras[i].charAt(0) == '#'){
+            NuevoTexto.push(Palabras[i].toString().toLowerCase());
+        }
+    }
+
+    return NuevoTexto;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 // POR REVISAR Y COSNTRUIR                                                                              //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,14 +143,13 @@ function ConvertirTextoLista() {
 function InicioViajero() {
     ColocaUsuario();
     BloqueoListButton(1);
-    CargarViajes([["http://yahoo.com","Yahoo"],
-      ["http://google.com","Google"],
-      ["http://webdeveloper.com","Web Developer"]]);
+    CargarViajes(["Joseph","Yulay","Lucia"]);
     OpcionMapa();
     ConvertirTextoLista();
 }
 
 function AgregarViaje() {
+
     if (confirm("¿Esta seguro de sus datos?")) {
         alert("Viaje almacenado correctamente");
     } else {
@@ -113,14 +158,23 @@ function AgregarViaje() {
     MostrarOcultar(false)
 }
 
+function ModificarViaje() {
+
+    if (confirm("¿Esta seguro de sus datos?")) {
+        alert("Viaje editado correctamente");
+    } else {
+        alert("Error al editar el viaje");
+    }
+
+    close();
+}
+
 function ColocaUsuario () {
 
     var Usuario = ObtenerVariables().user;
 
     if (Usuario != "NONE"){
         document.getElementById('LV-Bienvenido').innerHTML += ":" + Usuario;
-    } else {
-        document.getElementById('LV-Bienvenido').innerHTML += ":" + Usuario; //Arreglar con el .json
     }
 }
 
@@ -153,11 +207,6 @@ function OpcionMapa() {
     alert("Opcion Mapa Publico vista");
 }
 
-function CargarViajes(Lista){
-  document.getElementById('DIV1-ListaOculta').innerHTML = "";
-
-  for (var i=0; i<Lista.length; i++){
-    document.getElementById('DIV1-ListaOculta').innerHTML += "" +
-        "<a href='"+ Lista[i][0] +"'>"+ Lista[i][1] +"</a> <br>";
-  }
+function InicioVer(){
+    document.getElementById('VE-Direccion').innerHTML = ObtenerVariables().Dir;
 }
