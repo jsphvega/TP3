@@ -360,7 +360,6 @@ function RevisarEnLista(Lista, Palabra) {
     }
 
     return false;
-
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -431,6 +430,7 @@ function VerDistancia() {
     alert("Opcion ver distancia vista");
     document.getElementById('DIV1-Ruta').checked = true;
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //  PROCEDIMIENTO DE YULAY                                                                         //
