@@ -99,7 +99,7 @@ function CargarViajes(Lista){
 }
 
 /****************************************************************************************************
-  Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
+ * Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
  ****************************************************************************************************/
 function VerEditar (Dir) {
     //VAriable Local
