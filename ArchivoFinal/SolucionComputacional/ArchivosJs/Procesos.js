@@ -99,14 +99,14 @@ function CargarViajes(Lista){
 }
 
 /****************************************************************************************************
-  Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
+ * Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
  ****************************************************************************************************/
 function VerEditar (Dir) {
     //VAriable Local
     var Ir = "VerLibreta.html?Dir=" + Dir + "";
 
     //Abre la pantalla emergente
-    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=600,height=340");
+    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=535,height=340");
 }
 
 /****************************************************************************************************
@@ -162,7 +162,7 @@ function CargarDatos() {
     //LLama a la lista a cargar los datos
     CargarViajes(Lugares);
 
-    //Alerta
+    //informa al usuario
     alert("Datos cargados correctamente");
 }
 
@@ -221,16 +221,151 @@ function InicioVer(){
             document.getElementById('VE-Comida').value = window.ListaUsuario[i][6];
             document.getElementById('VE-Amigos').value = window.ListaUsuario[i][7];
 
-            //informa al usuaro y retorna
-            alert("Datos cargados correctamente");
             return;
         }
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-// POR REVISAR Y CONSTRUIR                                                                              //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/****************************************************************************************************
+ * Funcion que calcula la distancia segun l circunferencia de la tierra                             *
+ ****************************************************************************************************/
+function CalcularDistancia(Lat1, Lon1, Lat2, Lon2) {
+
+    //Funcion auxiliar que convierte a radianes
+    ConvertirRadianes = function(Grados) {
+        return (Grados * Math.PI) / 180;
+    }
+
+    //Radio de la tierra en KM
+    var RadioTierra = 6378.137;
+
+    //Variables que generan una distancia promedio
+    var DifLat = ConvertirRadianes(Lat2 - Lat1);
+    var DifLon = ConvertirRadianes(Lon2 - Lon1);
+
+    //Variable que calcula las coordenadas de distancia
+    var Coordenadas1 = Math.sin(DifLat / 2) * Math.sin(DifLat / 2) + Math.cos(ConvertirRadianes(Lat1)) *
+        Math.cos(ConvertirRadianes(Lat2)) * Math.sin(DifLon / 2) * Math.sin(DifLon / 2);
+
+    //Variable que calcula las coordenadas de distancia
+    var Coordenadas2 = 2 * Math.atan2(Math.sqrt(Coordenadas1), Math.sqrt(1-Coordenadas1));
+
+    //Distancia real final
+    var DistanciaReal = RadioTierra * Coordenadas2;
+
+    return parseFloat(DistanciaReal);
+}
+
+/****************************************************************************************************
+ * Funcion que calcula la diferencia de los dias entre dos fechas                                   *
+ ****************************************************************************************************/
+function CalcularDias(Ini, Fin) {
+
+    Ini = Ini.split('/');
+    Fin = Fin.split('/');
+
+    //Variables que contienen la fecha en su formato
+    var Fecha1 = new Date(Ini[2] + "," + Ini[1] + "," + Ini[0]);
+    var Fecha2 = new Date(Fin[2] + "," + Fin[1] + "," + Fin[0]);
+
+    //Diferencia de las fechas y conversión a días
+    var Diferencia = Fecha2.getTime() - Fecha1.getTime();
+    var Dias = Math.floor(Diferencia / (1000*24*60*60));
+
+    return Dias;
+}
+
+/****************************************************************************************************
+ * Funcion que muestra las estadisticas de los viajes realizados por el usuario                     *
+ ****************************************************************************************************/
+function Estadistica() {
+
+    //Condicion que valida si la lista de viajes esta vacia
+    if (ListaUsuario.length == 0){
+        alert("No se encuentran viajes registrados");
+        return;
+    }
+
+    //Variables Locales
+    var Lista = ListaUsuario[2];
+    var Totales = [0,0,0,[],[]];
+
+    //Ciclo que va recorrer toda la lista de viajes
+    for (var i=0; i<Lista.length; i++){
+
+        //Va ir contando todos los viajes existentes
+        Totales[0] += 1;
+
+        //Numero de días
+        Totales[1] += CalcularDias(Lista[i][4],Lista[i][5]);
+
+        //Distancia recorrida
+        if(i < Lista.length-1){
+            Totales[2] += CalcularDistancia(Lista[i][1],Lista[i][2],Lista[i+1][1],Lista[i+1][2]);
+        }
+
+        //Variable para fragmentar los lugares
+        var ListaLugares = Lista[i][0].split(',');
+
+        //Condicion que valida si existen ciudades
+        if (ListaLugares.length >= 2) {
+
+            //Variables para revisar que los datos se encuetren en orden
+            var Ciudad = ListaLugares[ListaLugares.length - 1].toString();
+            Ciudad = Ciudad.substr(0, 1) == " " ? Ciudad.substr(1) : Ciudad;
+
+            //Valida si existe la ciudad
+            if (!RevisarEnLista(Totales[3], Ciudad)) {
+                Totales[3] = Totales[3].concat(Ciudad);
+            }
+        }
+
+        //Condición que valida si existen paises
+        if (ListaLugares.length >= 1){
+
+            //Variables para revisar que los datos se encuetren en orden
+            var Pais = ListaLugares[ListaLugares.length - 2].toString();
+            Pais = Pais.substr(0, 1) == " " ? Pais.substr(1) : Pais;
+
+            //Valida si existe el pais
+            if(!RevisarEnLista(Totales[4], Pais)){
+                Totales[4] = Totales[4].concat(Pais);
+            }
+
+        }
+
+    }
+
+    alert("Estadisticas de " + ListaUsuario[0] +
+        "\nCantidad de viajes: " + Totales[0] +
+        "\nDuracion de viajes: " + Totales[1] + " dias" +
+        "\nDistancia recorrida: " + Totales[2].toFixed(2) +" km" +
+        "\nCiudades Visitadas: " + Totales[3].length +
+        "\nPaises Visitados: " + Totales[4].length);
+}
+
+/****************************************************************************************************
+ * Funcion que revisa si el dato esta en la lista o no                                              *
+ ****************************************************************************************************/
+function RevisarEnLista(Lista, Palabra) {
+
+    //Ciclo que revisa cada posicion de la lista
+    for (var i=0; i<Lista.length; i++){
+
+        //Valida si existe o no
+        if (Lista[i] == Palabra){
+            return true;
+        }
+
+    }
+
+    return false;
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// POR REVISAR Y CONSTRUIR                                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /****************************************************************************************************
  * Funcion que lo que realiza es partir el texto en una lista que incluya los tag, comidas y amigos  *
@@ -248,6 +383,23 @@ function PartirTexto(Texto){
     }
 
     return NuevoTexto;
+}
+
+function ModificaTexto(Texto) {
+
+    //Ciclo que va sustituyendo las letras incorrectas por letras legibles
+    while(Texto.indexOf('á') >= 0 && Texto.indexOf('é') >= 0 && Texto.indexOf('í') >= 0
+        && Texto.indexOf('ó') >= 0 && Texto.indexOf('ú') >= 0) {
+
+        //Reemplaza las tildes
+        Texto = Texto.replace('á','a');
+        Texto = Texto.replace('é','e');
+        Texto = Texto.replace('í','i');
+        Texto = Texto.replace('ó','o');
+        Texto = Texto.replace('ú','u');
+    }
+
+    return Texto;
 }
 
 function AgregarViaje() {
@@ -280,17 +432,9 @@ function VerDistancia() {
     document.getElementById('DIV1-Ruta').checked = true;
 }
 
-function Estadistica(Lista) {
-    /**Se   debe   mostrar   en   todo   momento   las   siguientes   estadísticas   el   viajero:
-     * Total  de  viajes,  total  de  días  en  viaje,  total  de  distancia  (en  kilómetros)
-     * recorrida,  Cantidad  de ciudades visitadas, cantidad de países visitados.  
-     *
-     * Distancia = raiz([x2 - x1]cuadrado + [y2 - y1]cuadrado)*/
-
-}
-
-//PROCEDIMIENTOS DE YULAY
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//  PROCEDIMIENTO DE YULAY                                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 function ExtraerDatosJSON (){
 
     //[Usuario,PrivacidadMapa,[viajes]]
@@ -298,9 +442,9 @@ function ExtraerDatosJSON (){
 
     var viaje = ['TP3','publico',
         [
-            ['Joseph','37.423901','-122.091497','#Haciendo #Interfaz','10/06/2015','10/06/2015',"#Pizza","#Todos"],
-            ['Lucia','37.424194','-122.092699','#Haciendo #Mapa','10/06/2015','10/06/2015',"#Pizza","#Todos"],
-            ['Yulay','37.423152','-122.092456','#Haciendo #JSON','10/06/2015','10/06/2015',"#Pizza","#Todos"]
+            ['Moravia, San Jose, Costa Rica',-84.09072459999999,9.9280694,'#primer #viaje','01/06/2015','06/06/2015',"#Pinto","#Joseph #Lucia #Yulay"],
+            ['Tokio, Japon',139.69170639999993,35.6894875,'#segundo #viaje','06/06/2015','08/06/2015',"#sushi","#Joseph #Lucia #Yulay"],
+            ['Madrid, España',-3.7037901999999576,40.4167754,'#tercer #viaje','08/06/2015','11/06/2015',"#CorderoAsado ","#Joseph #Lucia #Yulay"]
         ]
     ];
 
