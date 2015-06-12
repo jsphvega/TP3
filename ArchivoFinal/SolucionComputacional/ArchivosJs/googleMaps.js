@@ -52,28 +52,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
     // Listen for the event fired when the user selects an item from the
     // pick list. Retrieve the matching places for that item.
-    google.maps.event.addListener(searchBox, 'place_changed', function () {
-      var place = this.getPlace();
-      //when place has been found
-      if (place.geometry) {
-        marker.setOptions({
-          title: place.name,
-          position: place.geometry.location
-        });
-        if (place.geometry.viewport) {
-          marker.getMap().fitBounds(place.geometry.viewport);
-        } else {
-          marker.getMap().setCenter(place.geometry.location);
-        }
-      }
-      //otherwise
-      else {
-        marker.setOptions({
-          title: null
-        });
-        alert('place not found');
-      }
-    });
+    google.maps.event.addListener(searchBox, 'place_changed',onPlaceChanged);
 
     // Bias the SearchBox results towards places that are within the bounds of the
     // current map's viewport.
@@ -97,6 +76,29 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     document.getElementById('longitude').innerHTML = this.getPosition().lng();
   }
 
+  // Auxiliary functions
+  function onPlaceChanged() {
+    var place = this.getPlace();
+    //when place has been found
+    if (place.geometry) {
+      marker.setOptions({
+        title: place.name,
+        position: place.geometry.location
+      });
+      if (place.geometry.viewport) {
+        marker.getMap().fitBounds(place.geometry.viewport);
+      } else {
+        marker.getMap().setCenter(place.geometry.location);
+      }
+    }
+    //otherwise
+    else {
+      marker.setOptions({
+        title: null
+      });
+      alert('place not found');
+    }
+  }
 
   window.onload = loadScript;
 
