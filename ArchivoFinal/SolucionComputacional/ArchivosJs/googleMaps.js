@@ -10,12 +10,13 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var marker;
   var map;
   var defaultTitleMaker = '';
-  var searchBox;
+  var autoComplete;
+  var infowindow;
+  var servicePlaces;
 
   function initialize() {
 
-    document.getElementById('latitude').innerHTML = defaultLatitude;
-    document.getElementById('longitude').innerHTML = defaultLongitude;
+    showDeaultLocation();
 
     defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
     mapOptions = {
@@ -37,29 +38,20 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       draggable: true
     });
 
-    //set the value of the hidden inputs when the position changes
-    google.maps.event.addListener(marker, 'position_changed', onPositionChange);
-
     // Create an Autocomplete and link it to the UI element.
     var input = /** @type {HTMLInputElement} */ (
       document.getElementById('pac-input'));
 
-    searchBox = new google.maps.places.Autocomplete(
+    autoComplete = new google.maps.places.Autocomplete(
       /** @type {HTMLInputElement} */
       (input), {
         types: ['geocode']
       });
 
-    // Listen for the event fired when the user selects an item from the
-    // pick list. Retrieve the matching places for that item.
-    google.maps.event.addListener(searchBox, 'place_changed',onPlaceChanged);
+    infowindow = new google.maps.InfoWindow();
+    servicePlaces = new google.maps.places.PlacesService(map);
 
-    // Bias the SearchBox results towards places that are within the bounds of the
-    // current map's viewport.
-    google.maps.event.addListener(map, 'bounds_changed', function() {
-      var bounds = map.getBounds();
-      searchBox.setBounds(bounds);
-    });
+    addListeners();
 
   }
 
@@ -78,7 +70,10 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
   // Auxiliary functions
   function onPlaceChanged() {
-    var place = this.getPlace();
+    infowindow.close();
+    marker.setVisible(false);
+
+    var place = autoComplete.getPlace();
     //when place has been found
     if (place.geometry) {
       marker.setOptions({
@@ -90,6 +85,20 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       } else {
         marker.getMap().setCenter(place.geometry.location);
       }
+
+      marker.setVisible(true);
+
+      var address = '';
+      if (place.address_components) {
+        address = [
+          (place.address_components[0] && place.address_components[0].short_name || ''),
+          (place.address_components[1] && place.address_components[1].short_name || ''),
+          (place.address_components[2] && place.address_components[2].short_name || '')
+        ].join(' ');
+      }
+
+      infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+      infowindow.open(map, marker);
     }
     //otherwise
     else {
@@ -98,6 +107,29 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       });
       alert('place not found');
     }
+  }
+
+  function addListeners(){
+
+    //set the value of the hidden inputs when the position changes
+    google.maps.event.addListener(marker, 'position_changed', onPositionChange);
+
+    // Listen for the event fired when the user selects an item from the
+    // pick list. Retrieve the matching places for that item.
+    google.maps.event.addListener(autoComplete, 'place_changed',onPlaceChanged);
+
+    // Bias the autoComplete results towards places that are within the bounds of the
+    // current map's viewport.
+    google.maps.event.addListener(map, 'bounds_changed', function() {
+      var bounds = map.getBounds();
+      autoComplete.setBounds(bounds);
+    });
+
+  }
+
+  function showDeaultLocation(){
+    document.getElementById('latitude').innerHTML = defaultLatitude;
+    document.getElementById('longitude').innerHTML = defaultLongitude;
   }
 
   window.onload = loadScript;
