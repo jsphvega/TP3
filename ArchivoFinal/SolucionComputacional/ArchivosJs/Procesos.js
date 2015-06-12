@@ -181,7 +181,6 @@ function InicioViajero() {
         document.getElementById('LV-Bienvenido').innerHTML += ":" +
             Usuario.charAt(0).toUpperCase() + Usuario.slice(1);
         document.getElementById("btnImportar").disabled = true;
-    } else {
     }
 
     //Bloquea los botones de la pantalla
