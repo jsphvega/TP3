@@ -490,18 +490,14 @@ function VerDistancia() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 function ExtraerDatosJSON (){
 
-    //[Usuario,PrivacidadMapa,[viajes]]
-    //[viajes] = [NombreLugar,Latitud,Longitud,Tags,FechaIda,FechaLlegada,Comida,Amigos]
+    alert(document.getElementById("Archivo").value.toString());
+    jSONManager.loadJSON(document.getElementById("Archivo").value.toString());
 
-    var viaje = ['TP3','publico',
-        [
-            ['Moravia, San José, Costa Rica',-84.09072459999999,9.9280694,'#primer #viaje','01/06/2015','06/06/2015',"#Pinto","#Joseph #Lucia #Yulay"],
-            ['Tokio, Japón',139.69170639999993,35.6894875,'#segundo #viaje','06/06/2015','08/06/2015',"#sushi","#Joseph #Lucia #Yulay"],
-            ['Madrid, España',-3.7037901999999576,40.4167754,'#tercer #viaje','08/06/2015','11/06/2015',"#CorderoAsado ","#Joseph #Lucia #Yulay"]
-        ]
-    ];
+    var viajes = [];
 
     window.ListaUsuario = viaje;
 
     return viaje;
 }
+
+

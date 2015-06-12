@@ -1,1 +1,34 @@
-{"place":"CR","defaultLatitude":"9.748917","defaultLongitude":"-83.753428"}
+{
+  "Nombre": "TP3",
+  "Tipo": "publico",
+  "Viajes": [
+    {
+      "Lugar":"Moravia, San José, Costa Rica",
+      "Latitud":-84.09072459999999,
+      "Longitud":9.9280694,
+      "Tag":"#primer #viaje",
+      "FechaInicio":"01/06/2015",
+      "FechaFinal":"06/06/2015",
+      "Comida":"#Pinto",
+      "Amigos":"#Joseph #Lucia #Yulay"
+    },{
+      "Lugar":"Tokio, Japón",
+      "Latitud":139.69170639999993,
+      "Longitud":35.6894875,
+      "Tag":"#segundo #viaje",
+      "FechaInicio":"06/06/2015",
+      "FechaFinal":"08/06/2015",
+      "Comida":"#sushi",
+      "Amigos":"#Joseph #Lucia #Yulay"
+    },{
+      "Lugar":"Madrid, España'",
+      "Latitud":-3.7037901999999576,
+      "Longitud":40.4167754,
+      "Tag":"#tercer #viaje",
+      "FechaInicio":"08/06/2015",
+      "FechaFinal":"11/06/2015",
+      "Comida":"#CorderoAsado",
+      "Amigos":"#Joseph #Lucia #Yulay"
+    }
+  ]
+}
