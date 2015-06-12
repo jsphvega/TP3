@@ -1,4 +1,4 @@
-var ListaUsuario = [];
+var ListaUsuario = ["","",[]];
 
 /****************************************************************************************************
  * Funcion que traslada de pantalla principal a libreta de viajero.                                 *
@@ -106,7 +106,7 @@ function VerEditar (Dir) {
     var Ir = "VerLibreta.html?Dir=" + Dir + "";
 
     //Abre la pantalla emergente
-    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=535,height=340");
+    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=535,height=370");
 }
 
 /****************************************************************************************************
@@ -176,9 +176,12 @@ function InicioViajero() {
 
     //Para colocar el nombre si no existe
     var Usuario = ObtenerVariables().user;
+
     if (Usuario != "NONE"){
         document.getElementById('LV-Bienvenido').innerHTML += ":" +
             Usuario.charAt(0).toUpperCase() + Usuario.slice(1);
+        document.getElementById("btnImportar").disabled = true;
+    } else {
     }
 
     //Bloquea los botones de la pantalla
@@ -194,12 +197,7 @@ function InicioViajero() {
 function InicioVer(){
 
     //Variable que obtiene la direccion del url
-    var Direccion = ObtenerVariables().Dir;
-
-    //Ciclo que va sustituyendo las letras incorrectas por letras legibles
-    while(Direccion.indexOf('%20') >= 0) {
-        Direccion = Direccion.replace('%20',' ');
-    }
+    var Direccion = ModificaTexto(ObtenerVariables().Dir);
 
     //Asigna la direccion en la pantalla
     document.getElementById('VE-Direccion').innerHTML = Direccion;
@@ -281,7 +279,7 @@ function CalcularDias(Ini, Fin) {
 function Estadistica() {
 
     //Condicion que valida si la lista de viajes esta vacia
-    if (ListaUsuario.length == 0){
+    if (ListaUsuario[2].length == 0){
         alert("No se encuentran viajes registrados");
         return;
     }
@@ -360,7 +358,29 @@ function RevisarEnLista(Lista, Palabra) {
     }
 
     return false;
+}
 
+/****************************************************************************************************
+ * Funcion que va sustituyendo las letras incorrectas por letras legibles                           *
+ ****************************************************************************************************/
+function ModificaTexto(Texto) {
+
+    //Con %20 = ' '
+    while(Texto.indexOf('%20') >= 0) { Texto = Texto.replace('%20',' '); }
+    //Con á = a
+    while(Texto.indexOf('%C3%A1') >= 0) { Texto = Texto.replace('%C3%A1','á'); }
+    //Con é = e
+    while(Texto.indexOf('%C3%A9') >= 0) { Texto = Texto.replace('%C3%A9','é'); }
+    //Con í = i
+    while(Texto.indexOf('%C3%AD') >= 0) { Texto = Texto.replace('%C3%AD','í'); }
+    //Con ó = o
+    while(Texto.indexOf('%C3%B3') >= 0) { Texto = Texto.replace('%C3%B3','ó'); }
+    //Con ú = u
+    while(Texto.indexOf('%C3%BA') >= 0) { Texto = Texto.replace('%C3%BA','ú'); }
+    //Con %C3%B1 = ñ
+    while(Texto.indexOf('%C3%B1') >= 0) { Texto = Texto.replace('%C3%B1','ñ'); }
+
+    return Texto;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -372,43 +392,77 @@ function RevisarEnLista(Lista, Palabra) {
  ****************************************************************************************************/
 function PartirTexto(Texto){
 
-    var Palabras = Texto.split(' ');
+    //Variables que contienen el texto
+    var Palabras = Texto.split(' '); alert(Palabras);
     var NuevoTexto = [];
 
-    for (var i=0; i<Texto.length; i++) {
+    //Ciclo que va ir almacenando los datos en la nueva lista
+    for (var i=0; i<Palabras.length; i++) {
 
+        //Condicion que revisa si es una hashtag
         if (Palabras[i].charAt(0) == '#'){
-            NuevoTexto.push(Palabras[i].toString().toLowerCase());
+            NuevoTexto += Palabras[i].toString() + " ";
         }
     }
-
     return NuevoTexto;
 }
 
-function ModificaTexto(Texto) {
+/****************************************************************************************************
+ * Funcion que lo que realiza es crear una lista con los nuevos datos a almacenar                   *
+ ****************************************************************************************************/
+function ListaDatos(Tipo) {
 
-    //Ciclo que va sustituyendo las letras incorrectas por letras legibles
-    while(Texto.indexOf('á') >= 0 && Texto.indexOf('é') >= 0 && Texto.indexOf('í') >= 0
-        && Texto.indexOf('ó') >= 0 && Texto.indexOf('ú') >= 0) {
+    //Variables Globales
+    var NuevoDato = [];
 
-        //Reemplaza las tildes
-        Texto = Texto.replace('á','a');
-        Texto = Texto.replace('é','e');
-        Texto = Texto.replace('í','i');
-        Texto = Texto.replace('ó','o');
-        Texto = Texto.replace('ú','u');
+    //Condicion que revisa si es la opcion agregar o modificar
+    if (Tipo == 'A'){
+        NuevoDato = NuevoDato.concat(document.getElementById("pac-input").value);
+        NuevoDato = NuevoDato.concat(document.getElementById("latitude").innerHTML);
+        NuevoDato = NuevoDato.concat(document.getElementById("longitude").innerHTML);
+        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("DIV2-Tags").value));
+        NuevoDato = NuevoDato.concat(document.getElementById("DIV2-Inicio").value);
+        NuevoDato = NuevoDato.concat(document.getElementById("DIV2-Fin").value);
+        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("DIV2-Comida").value));
+        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("DIV2-Amigos").value));
+    } else {
+        NuevoDato = NuevoDato.concat(document.getElementById("VE-Direccion").value);
+        NuevoDato = NuevoDato.concat(document.getElementById("VE-latitude").innerHTML);
+        NuevoDato = NuevoDato.concat(document.getElementById("VE-longitude").innerHTML);
+        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Tags").value));
+        NuevoDato = NuevoDato.concat(document.getElementById("VE-Inicio").value);
+        NuevoDato = NuevoDato.concat(document.getElementById("VE-Fin").value);
+        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Comida").value));
+        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Amigos").value));
     }
 
-    return Texto;
+    return NuevoDato;
 }
 
 function AgregarViaje() {
 
     if (confirm("¿Esta seguro de sus datos?")) {
+
+        var NuevoDato = ListaDatos('A');
+
+        ListaUsuario[2] = ListaUsuario[2].concat([NuevoDato]);
+
+        //Lista de los lugares para la sesión
+        var Lugares = [];
+        for (var i=0; i<ListaUsuario[2].length; i++){
+
+            Lugares = Lugares.concat(ListaUsuario[2][i][0]);
+        }
+
+        //LLama a la lista a cargar los datos
+        CargarViajes(Lugares);
+
         alert("Viaje almacenado correctamente");
     } else {
         alert("Error al almacenar el viaje");
     }
+
+    //Oculta el espacio de agregar datos
     MostrarOcultar(false)
 }
 
@@ -438,12 +492,12 @@ function VerDistancia() {
 function ExtraerDatosJSON (){
 
     //[Usuario,PrivacidadMapa,[viajes]]
-    //[viajes] = [NombreLugar,Latitud,Longitud,Tags,FechaLlegada,FechaIda]
+    //[viajes] = [NombreLugar,Latitud,Longitud,Tags,FechaIda,FechaLlegada,Comida,Amigos]
 
     var viaje = ['TP3','publico',
         [
-            ['Moravia, San Jose, Costa Rica',-84.09072459999999,9.9280694,'#primer #viaje','01/06/2015','06/06/2015',"#Pinto","#Joseph #Lucia #Yulay"],
-            ['Tokio, Japon',139.69170639999993,35.6894875,'#segundo #viaje','06/06/2015','08/06/2015',"#sushi","#Joseph #Lucia #Yulay"],
+            ['Moravia, San José, Costa Rica',-84.09072459999999,9.9280694,'#primer #viaje','01/06/2015','06/06/2015',"#Pinto","#Joseph #Lucia #Yulay"],
+            ['Tokio, Japón',139.69170639999993,35.6894875,'#segundo #viaje','06/06/2015','08/06/2015',"#sushi","#Joseph #Lucia #Yulay"],
             ['Madrid, España',-3.7037901999999576,40.4167754,'#tercer #viaje','08/06/2015','11/06/2015',"#CorderoAsado ","#Joseph #Lucia #Yulay"]
         ]
     ];
