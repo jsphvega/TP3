@@ -11,8 +11,30 @@ var jSONManager = (function (){
     };
     xobj.send(null);
   }
+
+  function download(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+      var event = document.createEvent('MouseEvents');
+      event.initEvent('click', true, true);
+      pom.dispatchEvent(event);
+    }
+    else {
+      pom.click();
+    }
+  }
+
+  function saveJSON(filename, data){
+    var jsonData = JSON.stringify(data);
+    download(filename, jsonData);
+  }
+
   var jsonManager = {
-    loadJSON: loadJSON
+    loadJSON: loadJSON,
+    saveJSON: saveJSON
   };
 
   return jsonManager;
@@ -24,4 +46,5 @@ jSONManager.loadJSON('places.json', function(response) {
   console.log(currentJSON);
   console.log(currentJSON.place);
   console.log(currentJSON.defaultLatitude);
+  jSONManager.saveJSON('places2.json', currentJSON);
 });
