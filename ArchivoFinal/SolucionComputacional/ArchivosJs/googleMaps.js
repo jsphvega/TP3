@@ -225,22 +225,17 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   }
 
   function infoBox(map, marker, data) {
-    var infoWindow = new google.maps.InfoWindow();
+    var infoWindow = new google.maps.InfoWindow(
+      {
+        maxWidth: 200
+      }
+    );
     // Attaching a click event to the current marker
     google.maps.event.addListener(marker, "click", function(e) {
-      infoWindow.setContent(data.name);
+      var info = data.name;
+      infoWindow.setContent();
       infoWindow.open(map, marker);
     });
-
-    // Creating a closure to retain the correct data
-    // Note how I pass the current data in the loop into the closure (marker, data)
-    (function(marker, data) {
-      // Attaching a click event to the current marker
-      google.maps.event.addListener(marker, "click", function(e) {
-        infoWindow.setContent(data.name);
-        infoWindow.open(map, marker);
-      });
-    })(marker, data);
   }
 
   function loadPlaces(places){
