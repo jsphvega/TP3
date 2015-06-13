@@ -206,9 +206,44 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     return currentPosition;
   }
 
+  function setMarkers(places) {
+    //loop between each of the json elements
+    for (var i = 0, length = places.length; i < length; i++) {
+      var data = places[i],
+        latLng = new google.maps.LatLng(data.lat, data.lng);
+      //if(bounds.contains(latLng)) {
+      // Creating a marker and putting it on the map
+      var marker = new google.maps.Marker({
+        position: latLng,
+        map: map,
+        title: data.content
+      });
+      infoBox(map, marker, data);
+    }
+  }
+
+  function infoBox(map, marker, data) {
+    var infoWindow = new google.maps.InfoWindow();
+    // Attaching a click event to the current marker
+    google.maps.event.addListener(marker, "click", function(e) {
+      infoWindow.setContent(data.content);
+      infoWindow.open(map, marker);
+    });
+
+    // Creating a closure to retain the correct data
+    // Note how I pass the current data in the loop into the closure (marker, data)
+    (function(marker, data) {
+      // Attaching a click event to the current marker
+      google.maps.event.addListener(marker, "click", function(e) {
+        infoWindow.setContent(data.content);
+        infoWindow.open(map, marker);
+      });
+    })(marker, data);
+  }
+
   function loadPlaces(places){
     if(map){
-
+      setMarkers(places);
     }
   }
 
