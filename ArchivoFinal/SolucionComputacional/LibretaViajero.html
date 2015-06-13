@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="ArchivosCss/ClasesInterfaz.css">
     <link rel="stylesheet" href="ArchivosCss/googleMaps.css">
 
-    <!--LLAMA AL .js PARA LOS   PROCESOS-->
+    <!--LLAMA AL .js PARA LOS PROCESOS-->
     <script src="ArchivosJs/jsonManager.js"></script>
     <script type="text/javascript" src="ArchivosJs/Procesos.js"></script>
     <script src="ArchivosJs/googleMaps.js"></script>
@@ -241,7 +241,7 @@
                                 <!--TEXTO-->
                                 <p style="width: 100%">
                                     <!--CAMPO DE BUSQUEDA DEL MAPA-->
-                                    <input style="width:99%"  id="pac-input" type="text" placeholder="Dirección">
+                                    <input style="width:99%" id="pac-input" type="text" placeholder="Dirección" required/>
                                 </p>
 
                             </td>
@@ -269,8 +269,8 @@
                                 <p>
 
                                     <!--FECHA-->
-                                    <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Inicio">
-                                    <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Fin">
+                                    <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Inicio" required>
+                                    <input type="date" placeholder="dd/mm/aaaa" style="width:48%" id="DIV2-Fin" required>
 
                                 </p>
 
@@ -296,7 +296,7 @@
                                 <p>
 
                                     <!--CAMPO DE TEXTO-->
-                                    <input type="text" placeholder="#tag : palabra" style="width:99%" id="DIV2-Tags">
+                                    <input type="text" placeholder="#tag : palabra" style="width:99%" id="DIV2-Tags" required>
 
                                 </p>
 

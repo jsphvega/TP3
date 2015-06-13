@@ -108,6 +108,8 @@ function CargarViajes(Lista){
             "<u><a onclick=\"InicioVer(\'" + Lugares[j] +"\')\">Ver/Editar</a></u> " +
             Lugares[j] +"<br>";
     }
+
+    googleMapsAdmin.loadPlaces(Lista);
 }
 
 /****************************************************************************************************
@@ -175,7 +177,7 @@ function InicioViajero() {
     JSON.Lista[2] = [];
 
     //Para colocar el nombre si no existe
-    var Usuario = ObtenerVariables().user;
+    var Usuario = ModificaTexto(ObtenerVariables().user);
 
     if (Usuario != "NONE"){
         document.getElementById('LV-Bienvenido').innerHTML += ":" +
@@ -332,6 +334,29 @@ function RevisarEnLista(Lista, Palabra) {
 }
 
 /****************************************************************************************************
+ * Funcion que va sustituyendo las letras incorrectas por letras legibles                           *
+ ****************************************************************************************************/
+function ModificaTexto(Texto) {
+
+    //Con %20 = ' '
+    while(Texto.indexOf('%20') >= 0) { Texto = Texto.replace('%20',' '); }
+    //Con á = a
+    while(Texto.indexOf('%C3%A1') >= 0) { Texto = Texto.replace('%C3%A1','á'); }
+    //Con é = e
+    while(Texto.indexOf('%C3%A9') >= 0) { Texto = Texto.replace('%C3%A9','é'); }
+    //Con í = i
+    while(Texto.indexOf('%C3%AD') >= 0) { Texto = Texto.replace('%C3%AD','í'); }
+    //Con ó = o
+    while(Texto.indexOf('%C3%B3') >= 0) { Texto = Texto.replace('%C3%B3','ó'); }
+    //Con ú = u
+    while(Texto.indexOf('%C3%BA') >= 0) { Texto = Texto.replace('%C3%BA','ú'); }
+    //Con %C3%B1 = ñ
+    while(Texto.indexOf('%C3%B1') >= 0) { Texto = Texto.replace('%C3%B1','ñ'); }
+
+    return Texto;
+}
+
+/****************************************************************************************************
  * Funcion que lo que realiza es extraer los datos del json y colocarlos en una lista               *
  ****************************************************************************************************/
 function ImportaJSON (tipo) {
@@ -419,23 +444,32 @@ function AgregarViaje() {
     //Consulta si desea continuar
     if (confirm("¿Esta seguro de sus datos?")) {
 
-        //Extrael los datos de la pagina
-        var NuevoDato = ListaDatos('A');
+        if ( document.getElementById("pac-input").value == "" ||
+            document.getElementById("DIV2-Tags").value == "" ||
+            document.getElementById("DIV2-Inicio").value == "" ||
+            document.getElementById("DIV2-Fin").value == ""){
 
-        //Administra lel archivo jsonManager.js
-        var JSON = AdminJSON;
+            alert("No deben haber campos vacios");
+        } else {
 
-        //Contador para verificar si existe
-        var cont = 0;
+            //Extrael los datos de la pagina
+            var NuevoDato = ListaDatos('A');
 
-        //Ciclo que revisa cada posición de la lista
-        for (var i=0; i<JSON.Lista[2].length; i++) {
+            //Administra lel archivo jsonManager.js
+            var JSON = AdminJSON;
 
-            //Valida si ya se ha agregado anteriormente
-            if (JSON.Lista[2][i][0] != NuevoDato[0] &&
-                JSON.Lista[2][i][1] != NuevoDato[1] &&
-                JSON.Lista[2][i][2] != NuevoDato[2]){
-                cont++;
+            //Contador para verificar si existe
+            var cont = 0;
+
+            //Ciclo que revisa cada posición de la lista
+            for (var i=0; i<JSON.Lista[2].length; i++) {
+
+                //Valida si ya se ha agregado anteriormente
+                if (JSON.Lista[2][i][0] != NuevoDato[0] &&
+                    JSON.Lista[2][i][1] != NuevoDato[1] &&
+                    JSON.Lista[2][i][2] != NuevoDato[2]) {
+                    cont++;
+                }
             }
         }
 
@@ -546,6 +580,7 @@ function ModificarViaje() {
     }
 
 }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // POR REVISAR Y CONSTRUIR                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
