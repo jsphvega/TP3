@@ -206,11 +206,18 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     return currentPosition;
   }
 
+  function loadPlaces(places){
+    if(map){
+
+    }
+  }
+
   window.onload = loadScript;
 
   var googleMapsAdmin = {
     initialize: initialize, // Initialize Google Maps
-    getCurrentPosition: getCurrentPosition //
+    getCurrentPosition: getCurrentPosition, //
+    loadPlaces: loadPlaces
   };
 
   return googleMapsAdmin;
