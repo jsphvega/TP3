@@ -401,7 +401,12 @@ function ImportaJSON (tipo) {
     JSON.CargarJSON("places.json",true);
 
     if (tipo) {
-        var viaje = JSON.Lista;
+
+        var viaje = new Array();
+
+        for (var i=0; i<JSON.Lista.length; i++) {
+            viaje[i] = JSON.Lista[i];
+        }
 
         document.getElementById("btnExportar").disabled = false;
         document.getElementById("btnNuevo").disabled = false;
@@ -416,7 +421,6 @@ function ImportaJSON (tipo) {
 
 function ExportaJSON () {
 
-    alert(window.ListaUsuario);
     //Administra lel archivo jsonManager.js
     var JSON = AdminJSON;
 
@@ -424,7 +428,6 @@ function ExportaJSON () {
     JSON.Lista[1] = window.ListaUsuario[1];
 
     var Total = window.ListaUsuario[2].length;
-    alert(JSON.Lista);
 
     //Asigna los datos que estan en la lista
     for(var i=0; i<Total; i++){
