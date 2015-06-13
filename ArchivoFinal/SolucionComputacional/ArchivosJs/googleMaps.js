@@ -14,6 +14,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var autoComplete;
   var infoWindow;
   var servicePlaces;
+  var visitedPlace = 'Imagenes/flag.png';
   var currentPosition = {
     name: '',
     lat: '',
@@ -208,15 +209,16 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
   function setMarkers(places) {
     //loop between each of the json elements
-    for (var i = 0, length = places.length; i < length; i++) {
+    for (var i = 0, length = places.length; i < length; ++i) {
       var data = places[i],
         latLng = new google.maps.LatLng(data.lat, data.lng);
-      //if(bounds.contains(latLng)) {
       // Creating a marker and putting it on the map
+      var image = visitedPlace;
       var marker = new google.maps.Marker({
         position: latLng,
         map: map,
-        title: data.content
+        title: data.name,
+        icon: image
       });
       infoBox(map, marker, data);
     }
@@ -226,7 +228,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     var infoWindow = new google.maps.InfoWindow();
     // Attaching a click event to the current marker
     google.maps.event.addListener(marker, "click", function(e) {
-      infoWindow.setContent(data.content);
+      infoWindow.setContent(data.name);
       infoWindow.open(map, marker);
     });
 
@@ -235,7 +237,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     (function(marker, data) {
       // Attaching a click event to the current marker
       google.maps.event.addListener(marker, "click", function(e) {
-        infoWindow.setContent(data.content);
+        infoWindow.setContent(data.name);
         infoWindow.open(map, marker);
       });
     })(marker, data);
@@ -244,6 +246,8 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   function loadPlaces(places){
     if(map){
       setMarkers(places);
+      console.log('----------------places:');
+      console.log(places);
     }
   }
 
