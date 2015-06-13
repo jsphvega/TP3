@@ -256,7 +256,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
         '<p><b>Comidas: </b>' +
         meals +
         '</p>' +
-        '</div>' +
+      '</div>' +
         '</div>';
 
       infoWindow.setContent(contentString);
