@@ -9,15 +9,22 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var mapContainer = 'map-canvas';
   var marker;
   var map;
+  var geocoder;
   var defaultTitleMaker = '';
   var autoComplete;
   var infowindow;
   var servicePlaces;
+  var currentPosition = {
+    name: '',
+    lat: '',
+    lng: ''
+  };
 
   function initialize() {
 
     showDeaultLocation();
 
+    geocoder = new google.maps.Geocoder();
     defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
     mapOptions = {
       zoom: defaultZoom,
@@ -33,7 +40,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     marker = new google.maps.Marker({
       position: defaultPosition,
       title: defaultTitleMaker,
-      animation:google.maps.Animation.DROP,
+      animation: google.maps.Animation.DROP,
       map: map,
       draggable: true
     });
@@ -64,9 +71,22 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
   // Auxiliary functions
   function onPositionChange() {
-    document.getElementById('latitude').innerHTML = this.getPosition().lat();
-    document.getElementById('longitude').innerHTML = this.getPosition().lng();
+
+    //marker.setVisible(false);
+
+    var lat = this.getPosition().lat();
+    var lng = this.getPosition().lng();
+
+    document.getElementById('latitude').innerHTML = lat;
+    document.getElementById('longitude').innerHTML = lng;
   }
+
+  function updateCurrentPosition(placeName, lat, lng){
+    currentPosition.name = placeName;
+    currentPosition.lat = lat;
+    currentPosition.lng = lng;
+  }
+
 
   // Auxiliary functions
   function onPlaceChanged() {
@@ -99,6 +119,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
       infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
       infowindow.open(map, marker);
+      updateCurrentPosition(place.name, place.lat(), place.lng());
     }
     //otherwise
     else {
@@ -109,33 +130,78 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     }
   }
 
-  function addListeners(){
+
+  function onDragEnd(event) {
+
+
+    var lat = event.latLng.lat();
+    var lng = event.latLng.lng();
+
+    console.log('drag end');
+
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function (results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+          marker.setOptions({
+            map: map,
+            position: latlng
+          });
+          var address = results[0].formatted_address;
+          infowindow.setContent(address);
+          infowindow.open(map, marker);
+          updateCurrentPosition(address, lat, lng);
+          //console.log(results);
+        } else {
+          console.log('No results found');
+        }
+      } else {
+        console.log('Geocoder failed due to: ' + status);
+      }
+    });
+  }
+
+  function onDragStart(event) {
+    infowindow.close();
+    console.log('drag start');
+  }
+
+  function addListeners() {
 
     //set the value of the hidden inputs when the position changes
     google.maps.event.addListener(marker, 'position_changed', onPositionChange);
 
     // Listen for the event fired when the user selects an item from the
     // pick list. Retrieve the matching places for that item.
-    google.maps.event.addListener(autoComplete, 'place_changed',onPlaceChanged);
+    google.maps.event.addListener(autoComplete, 'place_changed', onPlaceChanged);
 
     // Bias the autoComplete results towards places that are within the bounds of the
     // current map's viewport.
-    google.maps.event.addListener(map, 'bounds_changed', function() {
+    google.maps.event.addListener(map, 'bounds_changed', function () {
       var bounds = map.getBounds();
       autoComplete.setBounds(bounds);
     });
 
+    google.maps.event.addListener(marker, 'dragstart', onDragStart);
+
+    google.maps.event.addListener(marker, "dragend", onDragEnd);
+
   }
 
-  function showDeaultLocation(){
+  function showDeaultLocation() {
     document.getElementById('latitude').innerHTML = defaultLatitude;
     document.getElementById('longitude').innerHTML = defaultLongitude;
+  }
+
+  function getCurrentPosition() {
+    return currentPosition;
   }
 
   window.onload = loadScript;
 
   var googleMapsAdmin = {
-    initialize: initialize // Initialize Google Maps
+    initialize: initialize, // Initialize Google Maps
+    getCurrentPosition: getCurrentPosition //
   };
 
   return googleMapsAdmin;
