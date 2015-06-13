@@ -22,14 +22,36 @@
 //  }
 //  , 5000);
 
+var places = [
+  {
+    "name":"Unnamed Road, Nicaragua",
+    "lat":12.508244831890146 ,
+    "lng":-85.81885768749999 ,
+    "Tag":"#primer #viaje",
+    "FechaInicio":"01/06/2015",
+    "FechaFinal":"06/06/2015",
+    "Comida":"#Pinto",
+    "Amigos":"#Joseph #Lucia #Yulay"
+  },{
+    "name":"Emberá, Panamá",
+    "lat":8.360226146025274,
+    "lng":-77.55713893749999,
+    "Tag":"#segundo #viaje",
+    "FechaInicio":"06/06/2015",
+    "FechaFinal":"08/06/2015",
+    "Comida":"#sushi",
+    "Amigos":"#Joseph #Lucia #Yulay"
+  }
+];
+
 setTimeout(
   function () {
 
     var places = [
       [
         "Moravia, San José, Costa Rica",
-        18.934150289348562,
-        -71.09717799999999,
+        -84.09072459999999,
+        9.9280694,
         "#primer #viaje",
         "01/06/2015",
         "06/06/2015",
