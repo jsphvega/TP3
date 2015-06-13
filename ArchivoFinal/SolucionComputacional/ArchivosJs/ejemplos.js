@@ -69,8 +69,8 @@ setTimeout(
       ]
     ];
 
-    googleMapsAdmin.loadPlaces(places);
-    googleMapsAdmin.showPath();
+    //googleMapsAdmin.loadPlaces(places);
+    //googleMapsAdmin.showPath();
 
   }
   , 5000);
