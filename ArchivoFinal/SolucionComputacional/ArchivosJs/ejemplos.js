@@ -66,20 +66,11 @@ setTimeout(
         "2015-06-13",
         "#fhthsx ",
         "#aegadgzz "
-      ],[
-        "Tokio, Japón",
-        -157.821856,
-        178.431,
-        "#dfhxdxgh ",
-        "2015-06-13",
-        "2015-06-13",
-        "#fhthsx ",
-        "#aegadgzz "
       ]
     ];
 
-    //googleMapsAdmin.loadPlaces(places);
-    //googleMapsAdmin.showPath();
+    googleMapsAdmin.loadPlaces(places);
+    googleMapsAdmin.showPath();
 
   }
   , 5000);
