@@ -43,9 +43,26 @@ function MostrarOcultar(Condicion) {
     if (Condicion) {
         document.getElementById('Espacio1').style.display='none';
         document.getElementById('Espacio2').style.display='block';
-    } else {
+        document.getElementById('Espacio3').style.display='none';
+
+
+        document.getElementById("pac-input").value = "";
+        document.getElementById("latitude").innerHTML= "";
+        document.getElementById("longitude").innerHTML= "";
+        document.getElementById("DIV2-Tags").value= "";
+        document.getElementById("DIV2-Inicio").value= "";
+        document.getElementById("DIV2-Fin").value= "";
+        document.getElementById("DIV2-Comida").value= "";
+        document.getElementById("DIV2-Amigos").value= "";
+
+    } else if (Condicion == false){
         document.getElementById('Espacio1').style.display='block';
         document.getElementById('Espacio2').style.display='none';
+        document.getElementById('Espacio3').style.display='none';
+    } else {
+        document.getElementById('Espacio1').style.display='none';
+        document.getElementById('Espacio2').style.display='none';
+        document.getElementById('Espacio3').style.display='block';
     }
 }
 
@@ -83,30 +100,27 @@ function VerOpcionBusqueda() {
 /****************************************************************************************************
  * Funcion que carga todos los viajes por medio de una lista para que puedan ser accesados          *
  ****************************************************************************************************/
-function CargarViajes(Lista){
+function CargarViajes(Lista) {
 
     document.getElementById('DIV1-ListaVisible').innerHTML = "";
 
+    //Lista de los lugares para la sesión
+    var Lugares = [];
+    for (var i = 0; i < Lista.length; i++) {
+        Lugares = Lugares.concat(Lista[i][0]);
+    }
+
     //Ciclo que va ir asignando los datos en la lista
-    for (var i=0; i<Lista.length; i++){
+    for (var j = 0; j < Lugares.length; j++) {
 
         //Asigna en la pagina los datos del archivo
         document.getElementById('DIV1-ListaVisible').innerHTML += "" +
 
-            "<u><a onclick=\"VerEditar(\'" + Lista[i] +"\')\">Ver/Editar</a></u> " +
-            Lista[i] +"<br>";
+            "<u><a onclick=\"InicioVer(\'" + Lugares[j] + "\')\">Ver/Editar</a></u> " +
+            Lugares[j] + "<br>";
     }
-}
 
-/****************************************************************************************************
- * Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
- ****************************************************************************************************/
-function VerEditar (Dir) {
-    //VAriable Local
-    var Ir = "VerLibreta.html?Dir=" + Dir + "";
-
-    //Abre la pantalla emergente
-    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=535,height=370");
+    googleMapsAdmin.loadPlaces(Lista);
 }
 
 /****************************************************************************************************
@@ -132,12 +146,14 @@ function BloqueoListButton (pos) {
  * Funcion que se ejecuta para cargar los datos del usuario segun la busqueda realizada             *
  ****************************************************************************************************/
 function CargarDatos() {
+
     //Extrae los datos
-    var Lista = ExtraerDatosJSON();
+    var Lista = ImportaJSON(true);
 
     //Condicion para saber si esta vacia o no
-    if (Lista == ""){
+    if (Lista[0] == ""){
         alert("Error al cargar lo datos");
+        ListaUsuario[0] = "";
         return;
     }
 
@@ -153,14 +169,8 @@ function CargarDatos() {
         document.getElementById('DIV1-Publico').checked = true;
     }
 
-    //Lista de los lugares para la sesión
-    var Lugares = [];
-    for (var i=0; i<Lista[2].length; i++){
-        Lugares = Lugares.concat(Lista[2][i][0]);
-    }
-
     //LLama a la lista a cargar los datos
-    CargarViajes(Lugares);
+    CargarViajes(Lista[2]);
 
     //informa al usuario
     alert("Datos cargados correctamente");
@@ -171,16 +181,22 @@ function CargarDatos() {
  ****************************************************************************************************/
 function InicioViajero() {
 
-    //Para crear el evento despues de buscar el archivo
-    document.getElementById('Archivo').addEventListener('change', CargarDatos, false)
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+    JSON.Lista[0] = "";
+    JSON.Lista[1] = "";
+    JSON.Lista[2] = [];
 
     //Para colocar el nombre si no existe
-    var Usuario = ObtenerVariables().user;
+    var Usuario = ModificaTexto(ObtenerVariables().user);
 
     if (Usuario != "NONE"){
         document.getElementById('LV-Bienvenido').innerHTML += ":" +
             Usuario.charAt(0).toUpperCase() + Usuario.slice(1);
         document.getElementById("btnImportar").disabled = true;
+    } else {
+        document.getElementById("btnExportar").disabled = true;
+        document.getElementById("btnNuevo").disabled = true;
     }
 
     //Bloquea los botones de la pantalla
@@ -188,39 +204,8 @@ function InicioViajero() {
 
     //Lo crea publico ya que el usuario es nuevo
     document.getElementById('DIV1-Publico').checked = true;
-}
 
-/****************************************************************************************************
- * Funcion que se ejecuta al comenzar la pantalla agregar viajero                                   *
- ****************************************************************************************************/
-function InicioVer(){
-
-    //Variable que obtiene la direccion del url
-    var Direccion = ModificaTexto(ObtenerVariables().Dir);
-
-    //Asigna la direccion en la pantalla
-    document.getElementById('VE-Direccion').innerHTML = Direccion;
-
-    //Extrae los datos en la lista
-    window.ListaUsuario = (ExtraerDatosJSON()[2]);
-
-    //Ciclo que revisa y asigna los datos
-    for(var i=0; i<window.ListaUsuario.length; i++){
-
-        //COndicion que revisa si los datos de la lista coinciden con los de la direccion
-        if(window.ListaUsuario[i][0] == Direccion){
-
-            document.getElementById('VE-longitude').innerHTML = window.ListaUsuario[i][2];
-            document.getElementById('VE-latitude').innerHTML = window.ListaUsuario[i][1];
-            document.getElementById('VE-Inicio').innerHTML = window.ListaUsuario[i][4];
-            document.getElementById('VE-Fin').innerHTML = window.ListaUsuario[i][5];
-            document.getElementById('VE-Tags').innerHTML = window.ListaUsuario[i][3];
-            document.getElementById('VE-Comida').value = window.ListaUsuario[i][6];
-            document.getElementById('VE-Amigos').value = window.ListaUsuario[i][7];
-
-            return;
-        }
-    }
+    ImportaJSON(false);
 }
 
 /****************************************************************************************************
@@ -277,14 +262,18 @@ function CalcularDias(Ini, Fin) {
  ****************************************************************************************************/
 function Estadistica() {
 
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+    var ListaUsuario = JSON.Lista[2];
+
     //Condicion que valida si la lista de viajes esta vacia
-    if (ListaUsuario[2].length == 0){
+    if (ListaUsuario.length == 0){
         alert("No se encuentran viajes registrados");
         return;
     }
 
     //Variables Locales
-    var Lista = ListaUsuario[2];
+    var Lista = ListaUsuario;
     var Totales = [0,0,0,[],[]];
 
     //Ciclo que va recorrer toda la lista de viajes
@@ -333,7 +322,7 @@ function Estadistica() {
 
     }
 
-    alert("Estadisticas de " + ListaUsuario[0] +
+    alert("Estadisticas:" +
         "\nCantidad de viajes: " + Totales[0] +
         "\nDuracion de viajes: " + Totales[1] + " dias" +
         "\nDistancia recorrida: " + Totales[2].toFixed(2) +" km" +
@@ -382,9 +371,65 @@ function ModificaTexto(Texto) {
     return Texto;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// POR REVISAR Y CONSTRUIR                                                                         //
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+/****************************************************************************************************
+ * Funcion que lo que realiza es extraer los datos del json y colocarlos en una lista               *
+ ****************************************************************************************************/
+function ImportaJSON (tipo) {
+
+    ListaUsuario[0] = "";
+    ListaUsuario[1] = "";
+    ListaUsuario[2] = [];
+
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+
+    //Carga los datos y los asigna en una lista
+    JSON.CargarJSON("places.json",true);
+
+    if (tipo) {
+
+        var viaje = new Array();
+
+        for (var i=0; i<JSON.Lista.length; i++) {
+            viaje[i] = JSON.Lista[i];
+        }
+
+        document.getElementById("btnExportar").disabled = false;
+        document.getElementById("btnNuevo").disabled = false;
+    }
+
+    return viaje;
+}
+
+/****************************************************************************************************
+ * Funcion que lo que realiza es importar los datos a un json colocados desde una lista              *
+ ****************************************************************************************************/
+function ExportaJSON () {
+
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+
+    //Revisa que existan viajes
+    if (JSON.Lista[2].length > 0) {
+
+        //Revisa que tenga nombre
+        var Nombre = (document.getElementById('LV-Bienvenido').innerHTML).split(":");
+        JSON.Lista[0] = Nombre[1];
+
+        if (document.getElementById('DIV1-Publico').checked == true){
+            JSON.Lista[1] = "publico";
+        } else {
+            JSON.Lista[1] = "privado";
+        }
+
+        //Carga los datos y los asigna en una lista
+        JSON.CargarJSON("Base.json", false);
+
+        alert("Datos exportados Correctamente");
+    } else {
+        alert("Debe existir al menos un viaje");
+    }
+}
 
 /****************************************************************************************************
  * Funcion que lo que realiza es partir el texto en una lista que incluya los tag, comidas y amigos  *
@@ -392,7 +437,7 @@ function ModificaTexto(Texto) {
 function PartirTexto(Texto){
 
     //Variables que contienen el texto
-    var Palabras = Texto.split(' '); alert(Palabras);
+    var Palabras = Texto.split(' ');
     var NuevoTexto = [];
 
     //Ciclo que va ir almacenando los datos en la nueva lista
@@ -404,6 +449,91 @@ function PartirTexto(Texto){
         }
     }
     return NuevoTexto;
+}
+
+/****************************************************************************************************
+ * Funcion que agrega los datos al archivo .json temporal y los mantiene en pantalla                *
+ ****************************************************************************************************/
+function AgregarViaje() {
+
+    //Consulta si desea continuar
+    if (confirm("¿Esta seguro de sus datos?")) {
+
+        if ( document.getElementById("pac-input").value == "" ||
+            document.getElementById("DIV2-Tags").value == "" ||
+            document.getElementById("DIV2-Inicio").value == "" ||
+            document.getElementById("DIV2-Fin").value == ""){
+
+            alert("No deben haber campos vacios");
+        } else {
+
+            //Extrael los datos de la pagina
+            var NuevoDato = ListaDatos('A');
+
+            //Administra lel archivo jsonManager.js
+            var JSON = AdminJSON;
+
+            //Contador para verificar si existe
+            var cont = 0;
+
+            //Ciclo que revisa cada posición de la lista
+            for (var i=0; i<JSON.Lista[2].length; i++) {
+
+                //Valida si ya se ha agregado anteriormente
+                if (JSON.Lista[2][i][0] != NuevoDato[0] &&
+                    JSON.Lista[2][i][1] != NuevoDato[1] &&
+                    JSON.Lista[2][i][2] != NuevoDato[2]) {
+                    cont++;
+                }
+            }
+        }
+
+        //Revisa si no se encuentra regostrado
+        if (cont == JSON.Lista[2].length) {
+            JSON.Lista[2] = JSON.Lista[2].concat([NuevoDato]);
+        }
+
+        //LLama a la lista a cargar los datos
+        CargarViajes(JSON.Lista[2]);
+
+        alert("Viaje almacenado correctamente");
+
+        //Oculta el espacio de agregar datos
+        MostrarOcultar(false)
+    }
+
+}
+
+/****************************************************************************************************
+ * Funcion que se ejecuta al comenzar la pantalla agregar viajero                                   *
+ ****************************************************************************************************/
+function InicioVer(Direccion){
+
+    MostrarOcultar(null);
+
+    //Asigna la direccion en la pantalla
+    document.getElementById('VE-Direccion').innerHTML = Direccion;
+
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+
+    //Ciclo que revisa y asigna los datos
+    for(var i=0; i<JSON.Lista[2].length; i++){
+
+        //COndicion que revisa si los datos de la lista coinciden con los de la direccion
+        if(JSON.Lista[2][i][0] == Direccion){
+
+            document.getElementById('VE-longitude').innerHTML = JSON.Lista[2][i][2];
+            document.getElementById('VE-latitude').innerHTML = JSON.Lista[2][i][1];
+            document.getElementById('VE-Inicio').innerHTML = JSON.Lista[2][i][4];
+            document.getElementById('VE-Fin').innerHTML = JSON.Lista[2][i][5];
+            document.getElementById('VE-Tags').innerHTML = JSON.Lista[2][i][3];
+            document.getElementById('VE-Comida').value = JSON.Lista[2][i][6];
+            document.getElementById('VE-Amigos').value = JSON.Lista[2][i][7];
+
+            return;
+        }
+    }
 }
 
 /****************************************************************************************************
@@ -426,11 +556,6 @@ function ListaDatos(Tipo) {
         NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("DIV2-Amigos").value));
     } else {
         NuevoDato = NuevoDato.concat(document.getElementById("VE-Direccion").value);
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-latitude").innerHTML);
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-longitude").innerHTML);
-        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Tags").value));
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-Inicio").value);
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-Fin").value);
         NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Comida").value));
         NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Amigos").value));
     }
@@ -438,43 +563,42 @@ function ListaDatos(Tipo) {
     return NuevoDato;
 }
 
-function AgregarViaje() {
-
-    if (confirm("¿Esta seguro de sus datos?")) {
-
-        var NuevoDato = ListaDatos('A');
-
-        ListaUsuario[2] = ListaUsuario[2].concat([NuevoDato]);
-
-        //Lista de los lugares para la sesión
-        var Lugares = [];
-        for (var i=0; i<ListaUsuario[2].length; i++){
-
-            Lugares = Lugares.concat(ListaUsuario[2][i][0]);
-        }
-
-        //LLama a la lista a cargar los datos
-        CargarViajes(Lugares);
-
-        alert("Viaje almacenado correctamente");
-    } else {
-        alert("Error al almacenar el viaje");
-    }
-
-    //Oculta el espacio de agregar datos
-    MostrarOcultar(false)
-}
-
+/****************************************************************************************************
+ * Funcion que lo que realiza es modificar la lista con los nuevos datos a almacenar                *
+ ****************************************************************************************************/
 function ModificarViaje() {
 
     if (confirm("¿Esta seguro de sus datos?")) {
+
+        //Extrael los datos de la pagina
+        var NuevoDato = ListaDatos('M');
+        alert(NuevoDato);
+
+        //Administra lel archivo jsonManager.js
+        var JSON = AdminJSON;
+
+        //Ciclo que revisa cada posición de la lista
+        for (var i=0; i<JSON.Lista[2].length; i++) {
+
+            //Valida si ya se ha agregado anteriormente
+            if (JSON.Lista[2][i][0] != NuevoDato[0]){
+
+                JSON.Lista[2][i][6] = NuevoDato[1];
+                JSON.Lista[2][i][7] = NuevoDato[2];
+
+            }
+        }
+
         alert("Viaje editado correctamente");
-    } else {
-        alert("Error al editar el viaje");
+
+        MostrarOcultar(false);
     }
 
-    close();
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// POR REVISAR Y CONSTRUIR                                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function TrazarRuta() {
     alert("Opcion Trazar ruta vista");
@@ -483,25 +607,4 @@ function TrazarRuta() {
 function VerDistancia() {
     alert("Opcion ver distancia vista");
     document.getElementById('DIV1-Ruta').checked = true;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//  PROCEDIMIENTO DE YULAY                                                                         //
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-function ExtraerDatosJSON (){
-
-    //[Usuario,PrivacidadMapa,[viajes]]
-    //[viajes] = [NombreLugar,Latitud,Longitud,Tags,FechaIda,FechaLlegada,Comida,Amigos]
-
-    var viaje = ['TP3','publico',
-        [
-            ['Moravia, San José, Costa Rica',-84.09072459999999,9.9280694,'#primer #viaje','01/06/2015','06/06/2015',"#Pinto","#Joseph #Lucia #Yulay"],
-            ['Tokio, Japón',139.69170639999993,35.6894875,'#segundo #viaje','06/06/2015','08/06/2015',"#sushi","#Joseph #Lucia #Yulay"],
-            ['Madrid, España',-3.7037901999999576,40.4167754,'#tercer #viaje','08/06/2015','11/06/2015',"#CorderoAsado ","#Joseph #Lucia #Yulay"]
-        ]
-    ];
-
-    window.ListaUsuario = viaje;
-
-    return viaje;
 }

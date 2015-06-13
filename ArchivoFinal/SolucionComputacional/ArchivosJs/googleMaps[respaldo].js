@@ -8,7 +8,6 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var defaultZoom = 5;
   var mapContainer = 'map-canvas';
   var marker;
-  var markers = [];
   var map;
   var geocoder;
   var defaultTitleMaker = '';
@@ -16,9 +15,6 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var infoWindow;
   var servicePlaces;
   var visitedPlace = 'Imagenes/flag.png';
-  var flightPath;
-  var flightPlanCoordinates;
-  var currentPlaces;
   var currentPosition = {
     name: '',
     lat: '',
@@ -26,8 +22,6 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   };
 
   function initMap() {
-    flightPlanCoordinates = [
-    ];
     geocoder = new google.maps.Geocoder();
     defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
     mapOptions = {
@@ -48,15 +42,6 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     });
     infoWindow = new google.maps.InfoWindow();
     servicePlaces = new google.maps.places.PlacesService(map);
-
-    flightPath = new google.maps.Polyline({
-      path: flightPlanCoordinates,
-      geodesic: true,
-      strokeColor: '#FF0000',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
-
   }
 
   function connectLogicWithGUI() {
@@ -104,7 +89,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     document.getElementById('longitude').innerHTML = lng;
   }
 
-  function updateCurrentPosition(placeName, lat, lng) {
+  function updateCurrentPosition(placeName, lat, lng){
     currentPosition.name = placeName;
     currentPosition.lat = lat;
     currentPosition.lng = lng;
@@ -224,7 +209,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
   function setMarkers(places) {
     //loop between each of the json elements
-    for (var i = 0, length = places.length; i < length; i++) {
+    for (var i = 0, length = places.length; i < length; ++i) {
       var data = places[i],
         latLng = new google.maps.LatLng(data.lat, data.lng);
       // Creating a marker and putting it on the map
@@ -235,9 +220,6 @@ var googleMapsAdmin = (function googleMaps(window, document) {
         title: data.name,
         icon: image
       });
-
-      markers.push(marker);
-
       infoBox(map, marker, data);
     }
   }
@@ -249,146 +231,19 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       }
     );
     // Attaching a click event to the current marker
-    google.maps.event.addListener(marker, "click", function (e) {
-      var title = data.name;
-      var dateStart = data.FechaInicio;
-      var dateFinish = data.FechaFinal;
-      var tags = data.Tag;
-      var meals = data.Comida;
-
-      var contentString = '<div id="content">' +
-        '<div id="bodyContent">' +
-        '<p><b>' + title + '</b>' +
-        '</p>' +
-        '<p><b>Fechas: </b>' +
-        dateStart + ' / ' +
-        dateFinish +
-        '</p>' +
-        '<p><b>Tags: </b>' +
-        tags +
-        '</p>' +
-        '<p><b>Comidas: </b>' +
-        meals +
-        '</p>' +
-        '</div>' +
-        '</div>';
-
-      infoWindow.setContent(contentString);
+    google.maps.event.addListener(marker, "click", function(e) {
+      var info = data.name;
+      infoWindow.setContent();
       infoWindow.open(map, marker);
     });
   }
 
-  // Sets the map on all markers in the array.
-  function setAllMap(map) {
-    for (var i = 0; i < markers.length; i++) {
-      markers[i].setMap(map);
-    }
-  }
-
-  // Removes the markers from the map, but keeps them in the array.
-  function clearMarkers() {
-    setAllMap(null);
-    console.log('remove markers');
-  }
-
-  // Deletes all markers in the array by removing references to them.
-  function deleteMarkers() {
-    clearMarkers();
-    markers = [];
-  }
-
-
-  function loadPlaces(places) {
-    if (map) {
-      currentPlaces = parsePlaces(places);
-      deleteMarkers();
-      setMarkers(currentPlaces);
+  function loadPlaces(places){
+    if(map){
+      setMarkers(places);
       console.log('----------------places:');
-      console.log(currentPlaces);
+      console.log(places);
     }
-  }
-
-  // TODO: remove
-
-  function parsePlaces(places) {
-
-    placesJSON = [];
-
-    for (var i = 0, length = places.length; i < length; ++i) {
-      var data = places[i];
-      var place = {};
-      place.name = data[0];
-      place.lat = data[1];
-      place.lng = data[2];
-      place.Tag = data[3];
-      place.FechaInicio = data[4];
-      place.FechaFinal = data[5];
-      place.Comida = data[6];
-      place.Amigos = data[7];
-      placesJSON.push(place);
-    }
-
-    return placesJSON;
-  }
-
-  function tracePath(coordinates) {
-    flightPlanCoordinates = [
-    ];
-
-    for (var i = 0; i < coordinates.length; i++) {
-      var point;
-      point = new google.maps.LatLng(coordinates[i].lat, coordinates[i].lng);
-      flightPlanCoordinates.push(point);
-    }
-
-    //var flightPlanCoordinates = [
-    //  new google.maps.LatLng(37.772323, -122.214897),
-    //  new google.maps.LatLng(21.291982, -157.821856),
-    //  new google.maps.LatLng(-18.142599, 178.431),
-    //  new google.maps.LatLng(-27.46758, 153.027892)
-    //];
-
-    flightPath = new google.maps.Polyline({
-      path: flightPlanCoordinates,
-      geodesic: true,
-      strokeColor: '#FF0000',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
-    addLine();
-  }
-
-  function addLine() {
-    flightPath.setMap(map);
-  }
-
-  function removeLine() {
-    flightPath.setMap(null);
-  }
-
-  function sortTrips(places){
-    var result = [];
-    for (var i = 0, length = places.length; i < length; i++) {
-      var data = places[i];
-      var place = {};
-      place.lat = data.lat;
-      place.lng = data.lng;
-      result.push(place);
-    }
-    return result;
-  }
-
-  function showPath(){
-    var coordinates;
-    coordinates = sortTrips(currentPlaces);
-    console.log('show paths');
-    console.log(coordinates);
-    tracePath(coordinates);
-
-  }
-
-  function cleanPath(){
-    removeLine();
   }
 
   window.onload = loadScript;
@@ -396,8 +251,6 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var googleMapsAdmin = {
     initialize: initialize, // Initialize Google Maps
     getCurrentPosition: getCurrentPosition, //
-    showPath: showPath,
-    cleanPath: cleanPath,
     loadPlaces: loadPlaces
   };
 
