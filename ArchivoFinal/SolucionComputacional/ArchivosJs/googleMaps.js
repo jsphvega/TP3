@@ -12,7 +12,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   var geocoder;
   var defaultTitleMaker = '';
   var autoComplete;
-  var infowindow;
+  var infoWindow;
   var servicePlaces;
   var currentPosition = {
     name: '',
@@ -20,10 +20,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
     lng: ''
   };
 
-  function initialize() {
-
-    showDeaultLocation();
-
+  function initMap() {
     geocoder = new google.maps.Geocoder();
     defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
     mapOptions = {
@@ -33,10 +30,8 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       tilt: 45,
       center: defaultPosition
     };
-
     map = new google.maps.Map(document.getElementById(mapContainer),
       mapOptions);
-
     marker = new google.maps.Marker({
       position: defaultPosition,
       title: defaultTitleMaker,
@@ -44,7 +39,11 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       map: map,
       draggable: true
     });
+    infoWindow = new google.maps.InfoWindow();
+    servicePlaces = new google.maps.places.PlacesService(map);
+  }
 
+  function connectLogicWithGUI() {
     // Create an Autocomplete and link it to the UI element.
     var input = /** @type {HTMLInputElement} */ (
       document.getElementById('pac-input'));
@@ -54,12 +53,20 @@ var googleMapsAdmin = (function googleMaps(window, document) {
       (input), {
         types: ['geocode']
       });
+  }
 
-    infowindow = new google.maps.InfoWindow();
-    servicePlaces = new google.maps.places.PlacesService(map);
-
+  function initialize() {
+    showDefaultLocation();
+    initMap();
+    connectLogicWithGUI();
     addListeners();
+  }
 
+  function loadScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=' + initMethod;
+    document.body.appendChild(script);
   }
 
   function loadScript() {
@@ -90,7 +97,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
   // Auxiliary functions
   function onPlaceChanged() {
-    infowindow.close();
+    infoWindow.close();
     marker.setVisible(false);
 
     var place = autoComplete.getPlace();
@@ -117,9 +124,9 @@ var googleMapsAdmin = (function googleMaps(window, document) {
         ].join(' ');
       }
 
-      infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-      infowindow.open(map, marker);
-      updateCurrentPosition(place.name, place.lat(), place.lng());
+      infoWindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+      infoWindow.open(map, marker);
+      updateCurrentPosition(place.name, place.lat, place.lng);
     }
     //otherwise
     else {
@@ -148,8 +155,8 @@ var googleMapsAdmin = (function googleMaps(window, document) {
             position: latlng
           });
           var address = results[0].formatted_address;
-          infowindow.setContent(address);
-          infowindow.open(map, marker);
+          infoWindow.setContent(address);
+          infoWindow.open(map, marker);
           updateCurrentPosition(address, lat, lng);
           //console.log(results);
         } else {
@@ -162,8 +169,13 @@ var googleMapsAdmin = (function googleMaps(window, document) {
   }
 
   function onDragStart(event) {
-    infowindow.close();
+    infoWindow.close();
     console.log('drag start');
+  }
+
+  function onBoundsChanged() {
+    var bounds = map.getBounds();
+    autoComplete.setBounds(bounds);
   }
 
   function addListeners() {
@@ -177,10 +189,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
     // Bias the autoComplete results towards places that are within the bounds of the
     // current map's viewport.
-    google.maps.event.addListener(map, 'bounds_changed', function () {
-      var bounds = map.getBounds();
-      autoComplete.setBounds(bounds);
-    });
+    google.maps.event.addListener(map, 'bounds_changed', onBoundsChanged);
 
     google.maps.event.addListener(marker, 'dragstart', onDragStart);
 
@@ -188,7 +197,7 @@ var googleMapsAdmin = (function googleMaps(window, document) {
 
   }
 
-  function showDeaultLocation() {
+  function showDefaultLocation() {
     document.getElementById('latitude').innerHTML = defaultLatitude;
     document.getElementById('longitude').innerHTML = defaultLongitude;
   }
