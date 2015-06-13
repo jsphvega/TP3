@@ -1,118 +1,125 @@
-var googleMapsAdmin = (
+var googleMapsAdmin = (function googleMaps(window, document) {
 
-    function googleMaps(window, document) {
+  var initMethod = 'googleMapsAdmin.initialize';
+  var defaultLatitude = 9.748917;
+  var defaultLongitude = -83.753428;
+  var defaultPosition;
+  var mapOptions;
+  var defaultZoom = 5;
+  var mapContainer = 'map-canvas';
+  var marker;
+  var markers = [];
+  var map;
+  var geocoder;
+  var defaultTitleMaker = '';
+  var autoComplete;
+  var infoWindow;
+  var servicePlaces;
+  var visitedPlace = 'Imagenes/flag.png';
+  var currentPosition = {
+    name: '',
+    lat: '',
+    lng: ''
+  };
 
-        var initMethod = 'googleMapsAdmin.initialize';
-        var defaultLatitude = 9.748917;
-        var defaultLongitude = -83.753428;
-        var defaultPosition;
-        var mapOptions;
-        var defaultZoom = 5;
-        var mapContainer = 'map-canvas';
-        var marker;
-        var markers = [];
-        var map;
-        var geocoder;
-        var defaultTitleMaker = '';
-        var autoComplete;
-        var infoWindow;
-        var servicePlaces;
-        var visitedPlace = 'Imagenes/flag.png';
-        var currentPosition = {
-            name: '',
-            lat: '',
-            lng: ''
-        };
+  function initMap() {
+    geocoder = new google.maps.Geocoder();
+    defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
+    mapOptions = {
+      zoom: defaultZoom,
+      mapTypeId: google.maps.MapTypeId.SATELLITE,
+      heading: 90,
+      tilt: 45,
+      center: defaultPosition
+    };
+    map = new google.maps.Map(document.getElementById(mapContainer),
+      mapOptions);
+    marker = new google.maps.Marker({
+      position: defaultPosition,
+      title: defaultTitleMaker,
+      animation: google.maps.Animation.DROP,
+      map: map,
+      draggable: true
+    });
+    infoWindow = new google.maps.InfoWindow();
+    servicePlaces = new google.maps.places.PlacesService(map);
+  }
 
-        function initMap() {
-            geocoder = new google.maps.Geocoder();
-            defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
-            mapOptions = {
-                zoom: defaultZoom,
-                mapTypeId: google.maps.MapTypeId.SATELLITE,
-                heading: 90,
-                tilt: 45,
-                center: defaultPosition
-            };
-            map = new google.maps.Map(document.getElementById(mapContainer),mapOptions);
-            marker = new google.maps.Marker({
-                position: defaultPosition,
-                title: defaultTitleMaker,
-                animation: google.maps.Animation.DROP,
-                map: map,
-                draggable: true
-            });
-            infoWindow = new google.maps.InfoWindow();
-            servicePlaces = new google.maps.places.PlacesService(map);
-        }
+  function connectLogicWithGUI() {
+    // Create an Autocomplete and link it to the UI element.
+    var input = /** @type {HTMLInputElement} */ (
+      document.getElementById('pac-input'));
 
-        function connectLogicWithGUI() {
-            // Create an Autocomplete and link it to the UI element.
-            var input = /** @type {HTMLInputElement} */ (
-            document.getElementById('pac-input'));
+    autoComplete = new google.maps.places.Autocomplete(
+      /** @type {HTMLInputElement} */
+      (input), {
+        types: ['geocode']
+      });
+  }
 
-            autoComplete = new google.maps.places.Autocomplete(
-            /** @type {HTMLInputElement} */
-            (input), {
-                types: ['geocode']
-            });
-        }
+  function initialize() {
+    showDefaultLocation();
+    initMap();
+    connectLogicWithGUI();
+    addListeners();
+  }
 
-        function initialize() {
-            showDefaultLocation();
-            initMap();
-            connectLogicWithGUI();
-            addListeners();
-        }
+  function loadScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=' + initMethod;
+    document.body.appendChild(script);
+  }
 
-        function loadScript() {
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=' + initMethod;
-        document.body.appendChild(script);
-    }
+  function loadScript() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places&callback=' + initMethod;
+    document.body.appendChild(script);
+  }
 
-        // Auxiliary functions
-        function onPositionChange() {
+  // Auxiliary functions
+  function onPositionChange() {
 
-            //marker.setVisible(false);
+    //marker.setVisible(false);
 
-            var lat = this.getPosition().lat();
-            var lng = this.getPosition().lng();
+    var lat = this.getPosition().lat();
+    var lng = this.getPosition().lng();
 
-            document.getElementById('latitude').innerHTML = lat;
-            document.getElementById('longitude').innerHTML = lng;
-        }
+    document.getElementById('latitude').innerHTML = lat;
+    document.getElementById('longitude').innerHTML = lng;
+  }
 
-        function updateCurrentPosition(placeName, lat, lng) {
-            currentPosition.name = placeName;
-            currentPosition.lat = lat;
-            currentPosition.lng = lng;
-        }
+  function updateCurrentPosition(placeName, lat, lng) {
+    currentPosition.name = placeName;
+    currentPosition.lat = lat;
+    currentPosition.lng = lng;
+  }
 
-        // Auxiliary functions
-        function onPlaceChanged() {
-            infoWindow.close();
-            marker.setVisible(false);
 
-            var place = autoComplete.getPlace();
-            //when place has been found
-            if (place.geometry) {
-                marker.setOptions({
-                    title: place.name,
-                        position: place.geometry.location
-            });
-            if (place.geometry.viewport) {
-                marker.getMap().fitBounds(place.geometry.viewport);
-            } else {
-                marker.getMap().setCenter(place.geometry.location);
-            }
+  // Auxiliary functions
+  function onPlaceChanged() {
+    infoWindow.close();
+    marker.setVisible(false);
 
-            marker.setVisible(true);
+    var place = autoComplete.getPlace();
+    //when place has been found
+    if (place.geometry) {
+      marker.setOptions({
+        title: place.name,
+        position: place.geometry.location
+      });
+      if (place.geometry.viewport) {
+        marker.getMap().fitBounds(place.geometry.viewport);
+      } else {
+        marker.getMap().setCenter(place.geometry.location);
+      }
 
-            var address = '';
-            if (place.address_components) {
-            address = [
+      marker.setVisible(true);
+
+      var address = '';
+      if (place.address_components) {
+        address = [
           (place.address_components[0] && place.address_components[0].short_name || ''),
           (place.address_components[1] && place.address_components[1].short_name || ''),
           (place.address_components[2] && place.address_components[2].short_name || '')
@@ -205,7 +212,7 @@ var googleMapsAdmin = (
     //loop between each of the json elements
     for (var i = 0, length = places.length; i < length; i++) {
       var data = places[i],
-          latLng = new google.maps.LatLng(data.lat, data.lng);
+        latLng = new google.maps.LatLng(data.lat, data.lng);
       // Creating a marker and putting it on the map
       var image = visitedPlace;
       var marker = new google.maps.Marker({
@@ -223,25 +230,34 @@ var googleMapsAdmin = (
 
   function infoBox(map, marker, data) {
     var infoWindow = new google.maps.InfoWindow(
-        {
-          maxWidth: 200
-        }
+      {
+        maxWidth: 200
+      }
     );
     // Attaching a click event to the current marker
     google.maps.event.addListener(marker, "click", function (e) {
       var title = data.name;
       var dateStart = data.FechaInicio;
+      var dateFinish = data.FechaFinal;
+      var tags = data.Tag;
+      var meals = data.Comida;
 
       var contentString = '<div id="content">' +
-          '<div id="bodyContent">' +
-          '<p><b>' + title + '</b>' +
-          '</p>' +
-          '<p><b>Fecha inicio: </b>' +
-          dateStart +
-          '</p>' +
-          '<p></p>' +
-          '</div>' +
-          '</div>';
+        '<div id="bodyContent">' +
+        '<p><b>' + title + '</b>' +
+        '</p>' +
+        '<p><b>Fechas: </b>' +
+        dateStart + ' / ' +
+        dateFinish +
+        '</p>' +
+        '<p><b>Tags: </b>' +
+        tags +
+        '</p>' +
+        '<p><b>Comidas: </b>' +
+        meals +
+        '</p>' +
+      '</div>' +
+        '</div>';
 
       infoWindow.setContent(contentString);
       infoWindow.open(map, marker);
@@ -277,24 +293,45 @@ var googleMapsAdmin = (
     }
   }
 
+  // TODO: remove
+
   function parsePlaces(places) {
 
     placesJSON = [];
+
     for (var i = 0, length = places.length; i < length; ++i) {
-        var data = places[i];
-        var place = {};
-        place.name = data[0];
-        place.lat = data[1];
-        place.lng = data[2];
-        place.Tag = data[3];
-        place.FechaInicio = data[4];
-        place.FechaFinal = data[5];
-        place.Comida = data[6];
-        place.Amigos = data[7];
-        placesJSON.push(place);
+      var data = places[i];
+      var place = {};
+      place.name = data[0];
+      place.lat = data[1];
+      place.lng = data[2];
+      place.Tag = data[3];
+      place.FechaInicio = data[4];
+      place.FechaFinal = data[5];
+      place.Comida = data[6];
+      place.Amigos = data[7];
+      placesJSON.push(place);
     }
 
     return placesJSON;
+  }
+
+  function tracePath(origin, destination){
+    //var flightPlanCoordinates = [
+    //  new google.maps.LatLng(37.772323, -122.214897),
+    //  new google.maps.LatLng(21.291982, -157.821856),
+    //  new google.maps.LatLng(-18.142599, 178.431),
+    //  new google.maps.LatLng(-27.46758, 153.027892)
+    //];
+    //var flightPath = new google.maps.Polyline({
+    //  path: flightPlanCoordinates,
+    //  geodesic: true,
+    //  strokeColor: '#FF0000',
+    //  strokeOpacity: 1.0,
+    //  strokeWeight: 2
+    //});
+    //
+    //flightPath.setMap(map);
   }
 
   window.onload = loadScript;
