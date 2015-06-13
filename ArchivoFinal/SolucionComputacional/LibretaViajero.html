@@ -7,13 +7,14 @@
     <meta charset="UTF-8">
 
     <!--TITULO DE LA PAGINA-->
-    <title>Libreta  del  Viajero</title>
+    <title>Libreta  del  Viajero</title>s
 
     <!--LLAMA AL .CSS PARA LOS ESTILOS-->
     <link rel="stylesheet" href="ArchivosCss/ClasesInterfaz.css">
     <link rel="stylesheet" href="ArchivosCss/googleMaps.css">
 
     <!--LLAMA AL .js PARA LOS   PROCESOS-->
+    <script src="ArchivosJs/jsonManager.js"></script>
     <script type="text/javascript" src="ArchivosJs/Procesos.js"></script>
     <script src="ArchivosJs/googleMaps.js"></script>
     <script src="ArchivosJs/navigationGoogleMaps.js"></script>
@@ -189,15 +190,15 @@
                     <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE--> <br/>
 
                     <!--BOTONES DE LA PAGINA-->
-                    <button type="button" onclick="MostrarOcultar(true)"> Nuevo Viaje </button>
+                    <button  id="btnNuevo"  type="button" onclick="MostrarOcultar(true)"> Nuevo Viaje </button>
                     <button id="btnImportar" type="button" onclick="VerOpcionBusqueda()">
                         <label id="DIV1-Importar">Importar</label>
                     </button>
-                    <button type="button"> Exportar </button>
+                    <button id="btnExportar"  type="button" onclick="ExportaJSON()"> Exportar </button>
 
                     <!--CONTENEDOR DEL INPUT FILE-->
                     <div id="DIV1-Buscar" align="Center" style="display:none;border:1px solid black; width:87%">
-                        <input type="file" id="Archivo" accept=".json">
+                        <input type="file" id="Archivo" accept=".json" onchange="CargarDatos()">
                     </div>
 
                 </div>
@@ -391,9 +392,6 @@
         </table>
 
     </div>
-
-
-    <script src="ArchivosJs/jsonManager.js"></script>
 
 </body>
 

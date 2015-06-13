@@ -1,51 +1,111 @@
-var jSONManager = (function (){
-  function loadJSON(path, callback) {
-    var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', path, true); // Replace 'my_data' with the path to your file
-    xobj.onreadystatechange = function () {
-      if (xobj.readyState == 4 && xobj.status == "200") {
-        // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-        callback(xobj.responseText);
-      }
+/****************************************************************************************************
+ * Se encarga de todos los procesos relacionados con el .json                                       *
+ ****************************************************************************************************/
+var AdminJSON = ( function (){
+
+    //Lista que contiene los datos
+    var ListaJSON = ["","",[]];
+
+    //Funcion para cargar los datos del archivo .json
+    function CargarJSON(Direccion, pos) {
+
+        var Objeto = new XMLHttpRequest();
+
+        // Reemplaza 'my_data' con la direccion del archivo
+        Objeto.open('GET', Direccion, true);
+
+        //Crea una funcion que muestra los datos en pantalla
+        Objeto.onload = function () {
+
+            //Revisa si existe el archivo
+            if (Objeto.readyState == 4 && Objeto.status == "200") {
+
+                if (pos) {
+                    EnlistaJSON(Objeto.responseText);
+                } else {
+                    EnlazaJSON(Objeto.responseText)
+                }
+            }
+        };
+
+        Objeto.send(null);
+    }
+
+    //Funcion para enlistar los datos del archivo
+    function EnlistaJSON (Archivo) {
+
+        ListaJSON[0] = "";
+        ListaJSON[1] = "";
+        ListaJSON[2] = [];
+
+        //Crea los datos en una variable
+        var DatosJSON = JSON.parse(Archivo);
+
+        //Asigna los datos
+        ListaJSON[0] = (DatosJSON.Nombre);
+        ListaJSON[1] = (DatosJSON.Tipo);
+
+        //Asigna los datos que estan en la lista
+        for(var i=0; i<DatosJSON.Viajes.length; i++){
+            ListaJSON[2] = ListaJSON[2].concat([DatosJSON.Viajes[i]]);
+        }
+    }
+
+    //Funcion para enlistar los datos del archivo
+    function EnlazaJSON (Archivo) {
+
+        //Crea los datos en una variable
+        var DatosJSON = JSON.parse(Archivo);
+
+        //Asigna los datos
+        DatosJSON.Nombre = ListaJSON[0];
+        DatosJSON.Tipo = ListaJSON[1];
+
+        //Asigna los datos que estan en la lista
+        for(var i=0; i<ListaJSON[2].length; i++){
+            DatosJSON.Viajes = DatosJSON.Viajes.concat([ListaJSON[2][i]]);
+        }
+
+        var Nombre = (document.getElementById('LV-Bienvenido').innerHTML).split(":");
+        //LLama al proceso de guardar
+        SalvaJSON(Nombre[1] + ".json",DatosJSON);
+    }
+
+    //Funcion que descarga los archivo en escritorio
+    function DescargaJSON(Archivo, Texto) {
+
+        //Crea el elemento
+        var Documento = document.createElement('a');
+
+        //Asigna atributos
+        Documento.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(Texto));
+        Documento.setAttribute('download', Archivo);
+
+        //Revisa si se pudo crear el archivo
+        if (document.createEvent) {
+            var Evento = document.createEvent('MouseEvents');
+            Evento.initEvent('click', true, true);
+            Documento.dispatchEvent(Evento);
+        }
+        else {
+            Documento.click();
+        }
+    }
+
+    //Funcion que salva el archivo
+    function SalvaJSON(Archivo, Base){
+
+        var BaseJSON = JSON.stringify(Base);
+        DescargaJSON(Archivo, BaseJSON);
+    }
+
+    //Lista de Variables a llamar
+    var jsonManager = {
+        CargarJSON: CargarJSON,
+        SalvarJSON: SalvaJSON,
+        Lista: ListaJSON
     };
-    xobj.send(null);
-  }
 
+    return jsonManager;
 
-  function download(filename, text) {
-    var pom = document.createElement('a');
-    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    pom.setAttribute('download', filename);
-
-    if (document.createEvent) {
-      var event = document.createEvent('MouseEvents');
-      event.initEvent('click', true, true);
-      pom.dispatchEvent(event);
-    }
-    else {
-      pom.click();
-    }
-  }
-
-  function saveJSON(filename, data){
-    var jsonData = JSON.stringify(data);
-    download(filename, jsonData);
-  }
-
-  var jsonManager = {
-    loadJSON: loadJSON,
-    saveJSON: saveJSON
-  };
-
-  return jsonManager;
 })();
-
-jSONManager.loadJSON('places.json', function(response) {
-  // Parse JSON string into object
-  var currentJSON = JSON.parse(response);
-  console.log(currentJSON);
-  console.log(currentJSON.place);
-  console.log(currentJSON.defaultLatitude);
-  jSONManager.saveJSON('places2.json', currentJSON);
-});

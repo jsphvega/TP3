@@ -133,11 +133,12 @@ function BloqueoListButton (pos) {
  ****************************************************************************************************/
 function CargarDatos() {
     //Extrae los datos
-    var Lista = ExtraerDatosJSON();
+    var Lista = ImportaJSON(true);
 
     //Condicion para saber si esta vacia o no
-    if (Lista == ""){
+    if (Lista[0] == ""){
         alert("Error al cargar lo datos");
+        ListaUsuario[0] = "";
         return;
     }
 
@@ -171,9 +172,6 @@ function CargarDatos() {
  ****************************************************************************************************/
 function InicioViajero() {
 
-    //Para crear el evento despues de buscar el archivo
-    document.getElementById('Archivo').addEventListener('change', CargarDatos, false)
-
     //Para colocar el nombre si no existe
     var Usuario = ObtenerVariables().user;
 
@@ -181,6 +179,9 @@ function InicioViajero() {
         document.getElementById('LV-Bienvenido').innerHTML += ":" +
             Usuario.charAt(0).toUpperCase() + Usuario.slice(1);
         document.getElementById("btnImportar").disabled = true;
+    } else {
+        document.getElementById("btnExportar").disabled = true;
+        document.getElementById("btnNuevo").disabled = true;
     }
 
     //Bloquea los botones de la pantalla
@@ -188,6 +189,8 @@ function InicioViajero() {
 
     //Lo crea publico ya que el usuario es nuevo
     document.getElementById('DIV1-Publico').checked = true;
+
+    ImportaJSON(false);
 }
 
 /****************************************************************************************************
@@ -202,7 +205,7 @@ function InicioVer(){
     document.getElementById('VE-Direccion').innerHTML = Direccion;
 
     //Extrae los datos en la lista
-    window.ListaUsuario = (ExtraerDatosJSON()[2]);
+    window.ListaUsuario = (ImportaJSON()[2]);
 
     //Ciclo que revisa y asigna los datos
     for(var i=0; i<window.ListaUsuario.length; i++){
@@ -382,9 +385,61 @@ function ModificaTexto(Texto) {
     return Texto;
 }
 
+/****************************************************************************************************
+ * Funcion que lo que realiza es extraer los datos del json y colocarlos en una lista               *
+ ****************************************************************************************************/
+function ImportaJSON (tipo) {
+
+    ListaUsuario[0] = "";
+    ListaUsuario[1] = "";
+    ListaUsuario[2] = [];
+
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+
+    //Carga los datos y los asigna en una lista
+    JSON.CargarJSON("places.json",true);
+
+    if (tipo) {
+        var viaje = JSON.Lista;
+
+        document.getElementById("btnExportar").disabled = false;
+        document.getElementById("btnNuevo").disabled = false;
+    }
+
+    return viaje;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // POR REVISAR Y CONSTRUIR                                                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function ExportaJSON () {
+
+    alert(window.ListaUsuario);
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+
+    JSON.Lista[0] = window.ListaUsuario[0];
+    JSON.Lista[1] = window.ListaUsuario[1];
+
+    var Total = window.ListaUsuario[2].length;
+    alert(JSON.Lista);
+
+    //Asigna los datos que estan en la lista
+    for(var i=0; i<Total; i++){
+        JSON.Lista[2] = JSON.Lista[2].concat([window.ListaUsuario[2][i]]);
+    }
+
+    if (JSON.Lista[2].length > 0) {
+        //Carga los datos y los asigna en una lista
+        JSON.CargarJSON("Base.json", false);
+
+        alert("Datos exportados Correctamente");
+    } else {
+        alert("Debe existir al menos un viaje");
+    }
+}
 
 /****************************************************************************************************
  * Funcion que lo que realiza es partir el texto en una lista que incluya los tag, comidas y amigos  *
@@ -485,23 +540,5 @@ function VerDistancia() {
     document.getElementById('DIV1-Ruta').checked = true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//  PROCEDIMIENTO DE YULAY                                                                         //
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-function ExtraerDatosJSON (){
 
-    //[Usuario,PrivacidadMapa,[viajes]]
-    //[viajes] = [NombreLugar,Latitud,Longitud,Tags,FechaIda,FechaLlegada,Comida,Amigos]
-
-    var viaje = ['TP3','publico',
-        [
-            ['Moravia, San José, Costa Rica',-84.09072459999999,9.9280694,'#primer #viaje','01/06/2015','06/06/2015',"#Pinto","#Joseph #Lucia #Yulay"],
-            ['Tokio, Japón',139.69170639999993,35.6894875,'#segundo #viaje','06/06/2015','08/06/2015',"#sushi","#Joseph #Lucia #Yulay"],
-            ['Madrid, España',-3.7037901999999576,40.4167754,'#tercer #viaje','08/06/2015','11/06/2015',"#CorderoAsado ","#Joseph #Lucia #Yulay"]
-        ]
-    ];
-
-    window.ListaUsuario = viaje;
-
-    return viaje;
-}
+//JSON.CargarJSON("Base.json",false);
