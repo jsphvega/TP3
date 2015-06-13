@@ -44,6 +44,17 @@ function MostrarOcultar(Condicion) {
         document.getElementById('Espacio1').style.display='none';
         document.getElementById('Espacio2').style.display='block';
         document.getElementById('Espacio3').style.display='none';
+
+
+        document.getElementById("pac-input").value = "";
+        document.getElementById("latitude").innerHTML= "";
+        document.getElementById("longitude").innerHTML= "";
+        document.getElementById("DIV2-Tags").value= "";
+        document.getElementById("DIV2-Inicio").value= "";
+        document.getElementById("DIV2-Fin").value= "";
+        document.getElementById("DIV2-Comida").value= "";
+        document.getElementById("DIV2-Amigos").value= "";
+
     } else if (Condicion == false){
         document.getElementById('Espacio1').style.display='block';
         document.getElementById('Espacio2').style.display='none';
@@ -89,24 +100,24 @@ function VerOpcionBusqueda() {
 /****************************************************************************************************
  * Funcion que carga todos los viajes por medio de una lista para que puedan ser accesados          *
  ****************************************************************************************************/
-function CargarViajes(Lista){
+function CargarViajes(Lista) {
 
     document.getElementById('DIV1-ListaVisible').innerHTML = "";
 
     //Lista de los lugares para la sesión
     var Lugares = [];
-    for (var i=0; i<Lista.length; i++){
+    for (var i = 0; i < Lista.length; i++) {
         Lugares = Lugares.concat(Lista[i][0]);
     }
 
     //Ciclo que va ir asignando los datos en la lista
-    for (var j=0; j<Lugares.length; j++){
+    for (var j = 0; j < Lugares.length; j++) {
 
         //Asigna en la pagina los datos del archivo
         document.getElementById('DIV1-ListaVisible').innerHTML += "" +
 
-            "<u><a onclick=\"InicioVer(\'" + Lugares[j] +"\')\">Ver/Editar</a></u> " +
-            Lugares[j] +"<br>";
+            "<u><a onclick=\"InicioVer(\'" + Lugares[j] + "\')\">Ver/Editar</a></u> " +
+            Lugares[j] + "<br>";
     }
 
     googleMapsAdmin.loadPlaces(Lista);
@@ -251,14 +262,18 @@ function CalcularDias(Ini, Fin) {
  ****************************************************************************************************/
 function Estadistica() {
 
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+    var ListaUsuario = JSON.Lista[2];
+
     //Condicion que valida si la lista de viajes esta vacia
-    if (ListaUsuario[2].length == 0){
+    if (ListaUsuario.length == 0){
         alert("No se encuentran viajes registrados");
         return;
     }
 
     //Variables Locales
-    var Lista = ListaUsuario[2];
+    var Lista = ListaUsuario;
     var Totales = [0,0,0,[],[]];
 
     //Ciclo que va recorrer toda la lista de viajes
@@ -307,7 +322,7 @@ function Estadistica() {
 
     }
 
-    alert("Estadisticas de " + ListaUsuario[0] +
+    alert("Estadisticas:" +
         "\nCantidad de viajes: " + Totales[0] +
         "\nDuracion de viajes: " + Totales[1] + " dias" +
         "\nDistancia recorrida: " + Totales[2].toFixed(2) +" km" +

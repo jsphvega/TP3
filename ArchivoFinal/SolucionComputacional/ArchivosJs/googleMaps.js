@@ -281,17 +281,17 @@ var googleMapsAdmin = (
 
     placesJSON = [];
     for (var i = 0, length = places.length; i < length; ++i) {
-      var data = places[i];
-      var place = {};
-      place.name = data[0];
-      place.lat = data[1];
-      place.lng = data[2];
-      place.Tag = data[3];
-      place.FechaInicio = data[4];
-      place.FechaFinal = data[5];
-      place.Comida = data[6];
-      place.Amigos = data[7];
-      placesJSON.push(place);
+        var data = places[i];
+        var place = {};
+        place.name = data[0];
+        place.lat = data[1];
+        place.lng = data[2];
+        place.Tag = data[3];
+        place.FechaInicio = data[4];
+        place.FechaFinal = data[5];
+        place.Comida = data[6];
+        place.Amigos = data[7];
+        placesJSON.push(place);
     }
 
     return placesJSON;
