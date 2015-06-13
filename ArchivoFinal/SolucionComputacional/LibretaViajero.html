@@ -199,6 +199,7 @@
                     <!--CONTENEDOR DEL INPUT FILE-->
                     <div id="DIV1-Buscar" align="Center" style="display:none;border:1px solid black; width:87%">
                         <input type="file" id="Archivo" accept=".json" onchange="CargarDatos()">
+                        <input type="hidden" id="ArchivoID">
                     </div>
 
                 </div>
@@ -232,8 +233,9 @@
                             <td align="right">
 
                                 <p align="left">
-                                  Latitud: <label id="latitude"></label>
-                                  Longitud: <label id="longitude"></label> <br/>
+                                  Latitud: <label id="latitude"></label></label>
+                                    <br/>
+                                  Longitud: <label id="longitude"></label>
                                 </p>
 
                                 <!--TEXTO-->
@@ -342,6 +344,164 @@
                     <!--BOTONES DE PANTALLA-->
                     <button type="button" onclick="AgregarViaje()"> Aceptar </button>
                     <button type="button" onclick="MostrarOcultar(false)"> Cancelar </button>
+
+                </div>
+
+                <!--DIVISIONES EN LA PAGINA-->
+                <div id="Espacio3" style="display: none">
+
+                    <!--LINEA DIVISORA-->
+                    <hr>
+
+                    <Table width="100%" height="100%" align="center">
+
+                        <!--FILA 1-->
+                        <tr>
+
+                            <!--COLUMNA 1-->
+                            <td width="100%" valign="top">
+
+                                <!--SUBTITULO-->
+                                <h2> <label> Modificar Viaje</label> </h2>
+
+                                <!--TABLA-->
+                                <table width="100%">
+
+                                    <!--FILA 1-->
+                                    <tr>
+                                        <!--COLUMNA 2-->
+                                        <td>
+
+                                            <p align="left">
+                                                <label id="VE-longitude" style="display: none"></label>
+                                                <label id="VE-latitude" style="display: none"></label>
+                                            </p>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <!--FILA 2-->
+                                    <tr>
+
+                                        <!--COLUMNA 2-->
+                                        <td>
+
+                                            <!--TEXTO-->
+                                            <p align="left"> Dirección: </p>
+
+                                        </td>
+
+                                        <!--COLUMNA 2-->
+                                        <td align="left">
+
+                                            <p style="width: 100%">
+                                                <!--CAMPO DE BUSQUEDA DEL MAPA-->
+                                                <label style="width:99%" id="VE-Direccion"> </label>
+                                            </p>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <!--FILA 3-->
+                                    <tr>
+
+                                        <!--COLUMNA 1-->
+                                        <td width="20%" valign="middle">
+
+                                            <!--TEXTO-->
+                                            <p align="left"> Fecha: </p>
+
+                                        </td>
+
+                                        <!--COLUMNA 2-->
+                                        <td align="left">
+
+                                            <!--TEXTO-->
+                                            <p>
+
+                                                <!--FECHA-->
+                                                Del
+                                                <label id="VE-Inicio"> SIN FECHA </label>
+                                                al
+                                                <label id="VE-Fin"> SIN FECHA </label>
+
+                                            </p>
+
+                                        </td>
+
+                                    </tr>
+
+                                    <!--FILA 4-->
+                                    <tr>
+
+                                        <!--COLUMNA 1-->
+                                        <td valign="middle">
+
+                                            <!--TEXTO-->
+                                            <p align="left"> Tags: </p>
+
+                                        </td>
+
+                                        <!--COLUMNA 2-->
+                                        <td align="left">
+
+                                            <!--TEXTO-->
+                                            <p>
+
+                                                <!--CAMPO DE TEXTO-->
+                                                <label id="VE-Tags"> SIN TAGS </label>
+
+                                            </p>
+
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+
+                                <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE--> <br/>
+
+                                <!--TABLA-->
+                                <table width="100%">
+
+                                    <!--FILA 1-->
+                                    <tr>
+
+                                        <!--COLUMNA 1-->
+                                        <td width="20%">
+
+                                            <!--TEXTO-->
+                                            <p align="left"> + Comida:</p>
+                                            <p align="left"> + Amigos:</p>
+
+                                        </td>
+
+                                        <!--COLUMNA 2-->
+                                        <td align="right">
+
+                                            <!--TEXTO-->
+                                            <p> <input type="text" placeholder="#comida : palabra" style="width:99%" id="VE-Comida"> </p>
+                                            <p> <input type="text" placeholder="#amigo : palabra" style="width:99%" id="VE-Amigos"> </p>
+
+                                        </td>
+
+                                    </tr>
+
+                                </table>
+
+                                <!--SALTOS EN PANTALLA PARA QUE EL TEXTO SE ACOMODE-->  <br/> <br/>
+
+                                <!--BOTONES DE PANTALLA-->
+                                <button type="button" onclick="ModificarViaje()"> Aceptar </button>
+                                <button type="button" onclick="MostrarOcultar(false)"> Cancelar </button>
+
+                            </td>
+
+                        </tr>
+
+                    </Table>
 
                 </div>
 

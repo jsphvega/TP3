@@ -43,9 +43,15 @@ function MostrarOcultar(Condicion) {
     if (Condicion) {
         document.getElementById('Espacio1').style.display='none';
         document.getElementById('Espacio2').style.display='block';
-    } else {
+        document.getElementById('Espacio3').style.display='none';
+    } else if (Condicion == false){
         document.getElementById('Espacio1').style.display='block';
         document.getElementById('Espacio2').style.display='none';
+        document.getElementById('Espacio3').style.display='none';
+    } else {
+        document.getElementById('Espacio1').style.display='none';
+        document.getElementById('Espacio2').style.display='none';
+        document.getElementById('Espacio3').style.display='block';
     }
 }
 
@@ -87,26 +93,21 @@ function CargarViajes(Lista){
 
     document.getElementById('DIV1-ListaVisible').innerHTML = "";
 
-    //Ciclo que va ir asignando los datos en la lista
+    //Lista de los lugares para la sesión
+    var Lugares = [];
     for (var i=0; i<Lista.length; i++){
+        Lugares = Lugares.concat(Lista[i][0]);
+    }
+
+    //Ciclo que va ir asignando los datos en la lista
+    for (var j=0; j<Lugares.length; j++){
 
         //Asigna en la pagina los datos del archivo
         document.getElementById('DIV1-ListaVisible').innerHTML += "" +
 
-            "<u><a onclick=\"VerEditar(\'" + Lista[i] +"\')\">Ver/Editar</a></u> " +
-            Lista[i] +"<br>";
+            "<u><a onclick=\"InicioVer(\'" + Lugares[j] +"\')\">Ver/Editar</a></u> " +
+            Lugares[j] +"<br>";
     }
-}
-
-/****************************************************************************************************
- * Funcion que va llamar la pantalla emergente con los datos escogidos por el usuario               *
- ****************************************************************************************************/
-function VerEditar (Dir) {
-    //VAriable Local
-    var Ir = "VerLibreta.html?Dir=" + Dir + "";
-
-    //Abre la pantalla emergente
-    window.open(Ir, "1", "scrollbars=0, toolbars=0, resizable=no, width=535,height=370");
 }
 
 /****************************************************************************************************
@@ -132,6 +133,7 @@ function BloqueoListButton (pos) {
  * Funcion que se ejecuta para cargar los datos del usuario segun la busqueda realizada             *
  ****************************************************************************************************/
 function CargarDatos() {
+
     //Extrae los datos
     var Lista = ImportaJSON(true);
 
@@ -154,14 +156,8 @@ function CargarDatos() {
         document.getElementById('DIV1-Publico').checked = true;
     }
 
-    //Lista de los lugares para la sesión
-    var Lugares = [];
-    for (var i=0; i<Lista[2].length; i++){
-        Lugares = Lugares.concat(Lista[2][i][0]);
-    }
-
     //LLama a la lista a cargar los datos
-    CargarViajes(Lugares);
+    CargarViajes(Lista[2]);
 
     //informa al usuario
     alert("Datos cargados correctamente");
@@ -171,6 +167,12 @@ function CargarDatos() {
  * Funcion que se ejecuta al comenzar la pantalla Viajero                                           *
  ****************************************************************************************************/
 function InicioViajero() {
+
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+    JSON.Lista[0] = "";
+    JSON.Lista[1] = "";
+    JSON.Lista[2] = [];
 
     //Para colocar el nombre si no existe
     var Usuario = ObtenerVariables().user;
@@ -191,39 +193,6 @@ function InicioViajero() {
     document.getElementById('DIV1-Publico').checked = true;
 
     ImportaJSON(false);
-}
-
-/****************************************************************************************************
- * Funcion que se ejecuta al comenzar la pantalla agregar viajero                                   *
- ****************************************************************************************************/
-function InicioVer(){
-
-    //Variable que obtiene la direccion del url
-    var Direccion = ModificaTexto(ObtenerVariables().Dir);
-
-    //Asigna la direccion en la pantalla
-    document.getElementById('VE-Direccion').innerHTML = Direccion;
-
-    //Extrae los datos en la lista
-    window.ListaUsuario = (ImportaJSON()[2]);
-
-    //Ciclo que revisa y asigna los datos
-    for(var i=0; i<window.ListaUsuario.length; i++){
-
-        //COndicion que revisa si los datos de la lista coinciden con los de la direccion
-        if(window.ListaUsuario[i][0] == Direccion){
-
-            document.getElementById('VE-longitude').innerHTML = window.ListaUsuario[i][2];
-            document.getElementById('VE-latitude').innerHTML = window.ListaUsuario[i][1];
-            document.getElementById('VE-Inicio').innerHTML = window.ListaUsuario[i][4];
-            document.getElementById('VE-Fin').innerHTML = window.ListaUsuario[i][5];
-            document.getElementById('VE-Tags').innerHTML = window.ListaUsuario[i][3];
-            document.getElementById('VE-Comida').value = window.ListaUsuario[i][6];
-            document.getElementById('VE-Amigos').value = window.ListaUsuario[i][7];
-
-            return;
-        }
-    }
 }
 
 /****************************************************************************************************
@@ -363,29 +332,6 @@ function RevisarEnLista(Lista, Palabra) {
 }
 
 /****************************************************************************************************
- * Funcion que va sustituyendo las letras incorrectas por letras legibles                           *
- ****************************************************************************************************/
-function ModificaTexto(Texto) {
-
-    //Con %20 = ' '
-    while(Texto.indexOf('%20') >= 0) { Texto = Texto.replace('%20',' '); }
-    //Con á = a
-    while(Texto.indexOf('%C3%A1') >= 0) { Texto = Texto.replace('%C3%A1','á'); }
-    //Con é = e
-    while(Texto.indexOf('%C3%A9') >= 0) { Texto = Texto.replace('%C3%A9','é'); }
-    //Con í = i
-    while(Texto.indexOf('%C3%AD') >= 0) { Texto = Texto.replace('%C3%AD','í'); }
-    //Con ó = o
-    while(Texto.indexOf('%C3%B3') >= 0) { Texto = Texto.replace('%C3%B3','ó'); }
-    //Con ú = u
-    while(Texto.indexOf('%C3%BA') >= 0) { Texto = Texto.replace('%C3%BA','ú'); }
-    //Con %C3%B1 = ñ
-    while(Texto.indexOf('%C3%B1') >= 0) { Texto = Texto.replace('%C3%B1','ñ'); }
-
-    return Texto;
-}
-
-/****************************************************************************************************
  * Funcion que lo que realiza es extraer los datos del json y colocarlos en una lista               *
  ****************************************************************************************************/
 function ImportaJSON (tipo) {
@@ -415,26 +361,27 @@ function ImportaJSON (tipo) {
     return viaje;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// POR REVISAR Y CONSTRUIR                                                                         //
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/****************************************************************************************************
+ * Funcion que lo que realiza es importar los datos a un json colocados desde una lista              *
+ ****************************************************************************************************/
 function ExportaJSON () {
 
     //Administra lel archivo jsonManager.js
     var JSON = AdminJSON;
 
-    JSON.Lista[0] = window.ListaUsuario[0];
-    JSON.Lista[1] = window.ListaUsuario[1];
-
-    var Total = window.ListaUsuario[2].length;
-
-    //Asigna los datos que estan en la lista
-    for(var i=0; i<Total; i++){
-        JSON.Lista[2] = JSON.Lista[2].concat([window.ListaUsuario[2][i]]);
-    }
-
+    //Revisa que existan viajes
     if (JSON.Lista[2].length > 0) {
+
+        //Revisa que tenga nombre
+        var Nombre = (document.getElementById('LV-Bienvenido').innerHTML).split(":");
+        JSON.Lista[0] = Nombre[1];
+
+        if (document.getElementById('DIV1-Publico').checked == true){
+            JSON.Lista[1] = "publico";
+        } else {
+            JSON.Lista[1] = "privado";
+        }
+
         //Carga los datos y los asigna en una lista
         JSON.CargarJSON("Base.json", false);
 
@@ -450,7 +397,7 @@ function ExportaJSON () {
 function PartirTexto(Texto){
 
     //Variables que contienen el texto
-    var Palabras = Texto.split(' '); alert(Palabras);
+    var Palabras = Texto.split(' ');
     var NuevoTexto = [];
 
     //Ciclo que va ir almacenando los datos en la nueva lista
@@ -462,6 +409,82 @@ function PartirTexto(Texto){
         }
     }
     return NuevoTexto;
+}
+
+/****************************************************************************************************
+ * Funcion que agrega los datos al archivo .json temporal y los mantiene en pantalla                *
+ ****************************************************************************************************/
+function AgregarViaje() {
+
+    //Consulta si desea continuar
+    if (confirm("¿Esta seguro de sus datos?")) {
+
+        //Extrael los datos de la pagina
+        var NuevoDato = ListaDatos('A');
+
+        //Administra lel archivo jsonManager.js
+        var JSON = AdminJSON;
+
+        //Contador para verificar si existe
+        var cont = 0;
+
+        //Ciclo que revisa cada posición de la lista
+        for (var i=0; i<JSON.Lista[2].length; i++) {
+
+            //Valida si ya se ha agregado anteriormente
+            if (JSON.Lista[2][i][0] != NuevoDato[0] &&
+                JSON.Lista[2][i][1] != NuevoDato[1] &&
+                JSON.Lista[2][i][2] != NuevoDato[2]){
+                cont++;
+            }
+        }
+
+        //Revisa si no se encuentra regostrado
+        if (cont == JSON.Lista[2].length) {
+            JSON.Lista[2] = JSON.Lista[2].concat([NuevoDato]);
+        }
+
+        //LLama a la lista a cargar los datos
+        CargarViajes(JSON.Lista[2]);
+
+        alert("Viaje almacenado correctamente");
+
+        //Oculta el espacio de agregar datos
+        MostrarOcultar(false)
+    }
+
+}
+
+/****************************************************************************************************
+ * Funcion que se ejecuta al comenzar la pantalla agregar viajero                                   *
+ ****************************************************************************************************/
+function InicioVer(Direccion){
+
+    MostrarOcultar(null);
+
+    //Asigna la direccion en la pantalla
+    document.getElementById('VE-Direccion').innerHTML = Direccion;
+
+    //Administra lel archivo jsonManager.js
+    var JSON = AdminJSON;
+
+    //Ciclo que revisa y asigna los datos
+    for(var i=0; i<JSON.Lista[2].length; i++){
+
+        //COndicion que revisa si los datos de la lista coinciden con los de la direccion
+        if(JSON.Lista[2][i][0] == Direccion){
+
+            document.getElementById('VE-longitude').innerHTML = JSON.Lista[2][i][2];
+            document.getElementById('VE-latitude').innerHTML = JSON.Lista[2][i][1];
+            document.getElementById('VE-Inicio').innerHTML = JSON.Lista[2][i][4];
+            document.getElementById('VE-Fin').innerHTML = JSON.Lista[2][i][5];
+            document.getElementById('VE-Tags').innerHTML = JSON.Lista[2][i][3];
+            document.getElementById('VE-Comida').value = JSON.Lista[2][i][6];
+            document.getElementById('VE-Amigos').value = JSON.Lista[2][i][7];
+
+            return;
+        }
+    }
 }
 
 /****************************************************************************************************
@@ -484,11 +507,6 @@ function ListaDatos(Tipo) {
         NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("DIV2-Amigos").value));
     } else {
         NuevoDato = NuevoDato.concat(document.getElementById("VE-Direccion").value);
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-latitude").innerHTML);
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-longitude").innerHTML);
-        NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Tags").value));
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-Inicio").value);
-        NuevoDato = NuevoDato.concat(document.getElementById("VE-Fin").value);
         NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Comida").value));
         NuevoDato = NuevoDato.concat(PartirTexto(document.getElementById("VE-Amigos").value));
     }
@@ -496,43 +514,41 @@ function ListaDatos(Tipo) {
     return NuevoDato;
 }
 
-function AgregarViaje() {
-
-    if (confirm("¿Esta seguro de sus datos?")) {
-
-        var NuevoDato = ListaDatos('A');
-
-        ListaUsuario[2] = ListaUsuario[2].concat([NuevoDato]);
-
-        //Lista de los lugares para la sesión
-        var Lugares = [];
-        for (var i=0; i<ListaUsuario[2].length; i++){
-
-            Lugares = Lugares.concat(ListaUsuario[2][i][0]);
-        }
-
-        //LLama a la lista a cargar los datos
-        CargarViajes(Lugares);
-
-        alert("Viaje almacenado correctamente");
-    } else {
-        alert("Error al almacenar el viaje");
-    }
-
-    //Oculta el espacio de agregar datos
-    MostrarOcultar(false)
-}
-
+/****************************************************************************************************
+ * Funcion que lo que realiza es modificar la lista con los nuevos datos a almacenar                *
+ ****************************************************************************************************/
 function ModificarViaje() {
 
     if (confirm("¿Esta seguro de sus datos?")) {
+
+        //Extrael los datos de la pagina
+        var NuevoDato = ListaDatos('M');
+        alert(NuevoDato);
+
+        //Administra lel archivo jsonManager.js
+        var JSON = AdminJSON;
+
+        //Ciclo que revisa cada posición de la lista
+        for (var i=0; i<JSON.Lista[2].length; i++) {
+
+            //Valida si ya se ha agregado anteriormente
+            if (JSON.Lista[2][i][0] != NuevoDato[0]){
+
+                JSON.Lista[2][i][6] = NuevoDato[1];
+                JSON.Lista[2][i][7] = NuevoDato[2];
+
+            }
+        }
+
         alert("Viaje editado correctamente");
-    } else {
-        alert("Error al editar el viaje");
+
+        MostrarOcultar(false);
     }
 
-    close();
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// POR REVISAR Y CONSTRUIR                                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function TrazarRuta() {
     alert("Opcion Trazar ruta vista");
@@ -542,6 +558,3 @@ function VerDistancia() {
     alert("Opcion ver distancia vista");
     document.getElementById('DIV1-Ruta').checked = true;
 }
-
-
-//JSON.CargarJSON("Base.json",false);
